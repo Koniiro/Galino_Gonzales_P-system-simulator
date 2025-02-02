@@ -6,21 +6,26 @@ import random
 with open('sm_test.json', 'r') as file:
     data = json.load(file)
 
-# Print the data
-#print(data)
-#print(data["membranes"][0]["rules"])
 
-#def rule_applicant():
+
+def rule_printer(rule):
+    print("===Apply Rule===")
+    print("Type: "+ rule["type"])
+    print("Input: " + ", ".join(f"{obj['type']}^{obj['count']}" for obj in rule["input"]), end=" ; ")
+    print("Output:" +", ".join(f"{obj['type']}^{obj['count']} " for obj in rule["output"]))
     
 
-while(True):
+
+
+while(time !=5):
     #determine which rules may be used
-    for i in data["membranes"]: # loop through all membranes
-        if i["objects"]==[]: #if no children. no need to apply rules
+    print(f"===Time: {time} ===" )
+    for memb in data["membranes"]: # loop through all membranes
+        if memb["objects"]==[]: #if no children. no need to apply rules
             continue
-        object_dict = {obj["type"]: obj["count"] for obj in i["objects"]}
-        to_add = {obj["type"]: 0 for obj in i["objects"]}
-        for i_r in i["rules"]: #checks which rules may be applied this round
+        object_dict = {obj["type"]: obj["count"] for obj in memb["objects"]}
+        to_add = {obj["type"]: 0 for obj in memb["objects"]}
+        for i_r in memb["rules"]: #checks which rules may be applied this round
             
             for i_r1 in i_r["input"]:
                 if i_r1["type"] not in object_dict or i_r1["count"] > object_dict[i_r1["type"]]:
@@ -32,7 +37,7 @@ while(True):
             unusable=False	#change to True if rule can no longer be used for popping
             app_rl=valid_rl[gacha]
             
-            object_dict = {obj["type"]: obj["count"] for obj in i["objects"]}
+            object_dict = {obj["type"]: obj["count"] for obj in memb["objects"]}
             
             #test if rule can be applied
             for i_r1 in app_rl["input"]:	#loop through input reqs
@@ -41,46 +46,59 @@ while(True):
                     break
             
             if unusable == False:
-                print("Apply" +str(app_rl))
-                print(i["objects"])
+
+                rule_printer(app_rl)
+                #print(i["objects"])
+                
+                # process inputs
                 for obj_int in app_rl["input"]:
-                    for obj in i["objects"]:
+                    for obj in memb["objects"]:
                         if obj["type"]==obj_int["type"]:
                            obj["count"]-= obj_int["count"]
                            break
-                print(i["objects"])     
+                #print(i["objects"])
+                
+                #add to temporary inputs
+                for obj_out in app_rl["output"]:
+                    if obj_out["type"] in to_add: #case where object already exists
+                        to_add[obj_out["type"]]+=obj_out["count"]
+                    else:
+                        to_add[obj_out["type"]]=obj_out["count"]
  
                 
             else:
                 valid_rl.pop(gacha) #pop rule if no longer able to apply
                 
                 
+        #print(memb["objects"])
+        #print(to_add)
         
-        print(to_add)
+        #apply new objects
+        target = {obj["type"]: obj for obj in memb["objects"]}  
+        for i in to_add:
+            if i in target:
+                target[i]["count"] += to_add[i]
+            else:
+       
+                memb["objects"].append({"type":i,"count":to_add[i]})
         
-        
+        print(memb["objects"])
         
         
         if valid_rl==[]:
             break
     
-            
-            
-   
         
         
-        
-        
-        
-        time+=1
         app_rl=""
         valid_rl=[]
-    break
+    time+=1
+   
         
                 
             
         
-   #break
+
 
 
     
