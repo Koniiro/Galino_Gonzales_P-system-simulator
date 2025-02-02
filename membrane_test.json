@@ -1,0 +1,67 @@
+{
+	"membranes":[
+	{
+		"id":1,
+		"objects":[
+		],
+		"children":[
+			{
+				"id":2,
+				"objects":[
+				],
+				"children":[
+				]
+			},
+			{
+				"id":3,
+				"objects":[
+				],
+				"children":[
+				]
+			},
+			{
+				"id":4,
+				"objects":[
+				],
+				"children":[
+					{
+						"id":5,
+						"objects":[
+						],
+						"children":[
+							{
+								"id":7,
+								"objects":[
+								],
+								"children":[
+								]
+							},
+							{
+								"id":8,
+								"objects":[
+								],
+								"children":[
+								]
+							},
+						]
+					},
+					{
+						"id":6,
+						"objects":[
+						{"val": "A", "count": 5},
+						{"val": "B", "count": 2},
+						{"val": "C", "count": 6},
+						],
+						"children":[
+						]
+					},
+				]
+			},
+		
+		
+		]
+		
+	}
+	]
+
+}

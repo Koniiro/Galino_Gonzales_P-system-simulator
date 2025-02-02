@@ -1,0 +1,27 @@
+{
+    "membranes": [
+		{
+			 "id": 1,
+			 "objects":
+				[
+					{"type":"a", "count":5},{"type":"b", "count":5},{"type":"c", "count":6}
+					
+				],
+			 "children":[],
+			 "rules":[
+				{
+					"input":[{"type":"a", "count":2},{"type":"b", "count":1}],
+					"output":[{"type":"a", "count":1},{"type":"b", "count":1},{"type":"c", "count":2}],
+					"type":"transform"
+				},
+				{
+					"input":[{"type":"b", "count":2}],
+					"output":[{"type":"a", "count":2},{"type":"c", "count":1}],
+					"type":"transform"
+				}
+			 
+			 ]
+		}
+		
+	]
+}
