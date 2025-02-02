@@ -27,19 +27,32 @@ while(True):
                     continue
             valid_rl.append(i_r)
   
-        while(len(valid_rl)!=0):
+        while(len(valid_rl)!=0): #loop until all rules are no longer usable
             gacha=random.randint(0, len(valid_rl) - 1)
             unusable=False	#change to True if rule can no longer be used for popping
             app_rl=valid_rl[gacha]
+            
+            object_dict = {obj["type"]: obj["count"] for obj in i["objects"]}
+            
             #test if rule can be applied
             for i_r1 in app_rl["input"]:	#loop through input reqs
                 if i_r1["type"] not in object_dict or i_r1["count"] > object_dict[i_r1["type"]]:
                     unusable=True
                     break
+            
             if unusable == False:
+                print("Apply" +str(app_rl))
+                print(i["objects"])
+                for obj_int in app_rl["input"]:
+                    for obj in i["objects"]:
+                        if obj["type"]==obj_int["type"]:
+                           obj["count"]-= obj_int["count"]
+                           break
+                print(i["objects"])     
+ 
                 
             else:
-                valid_rl(gacha) #pop rule if no longer able to apply
+                valid_rl.pop(gacha) #pop rule if no longer able to apply
                 
                 
         
