@@ -69,8 +69,8 @@ while(time !=5):
             else:
                 valid_rl.pop(gacha) #pop rule if no longer able to apply
                 
-                
-        #print(memb["objects"])
+               
+       #print(memb["objects"])
         #print(to_add)
         
         #apply new objects
@@ -84,14 +84,13 @@ while(time !=5):
         
         print(memb["objects"])
         
+        app_rl=""
+        valid_rl=[]
         
-        if valid_rl==[]:
-            break
     
         
         
-        app_rl=""
-        valid_rl=[]
+        
     time+=1
    
         
