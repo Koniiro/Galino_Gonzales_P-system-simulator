@@ -16,7 +16,7 @@
 				},
 				{
 					"input":[{"type":"b", "count":2}],
-					"output":[{"type":"a", "count":2},{"type":"c", "count":1}],
+					"output":[{"type":"a", "count":1},{"type":"d", "count":1}],
 					"type":"transform"
 				}
 			 

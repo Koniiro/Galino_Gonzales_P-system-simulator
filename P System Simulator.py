@@ -16,8 +16,8 @@ def rule_printer(rule):
     
 
 environment =[]
-
-while(time !=2):
+no_rules=False
+while(no_rules!=True):
     #determine which rules may be used
     print(f"===Time: {time} ===" )
     for memb in data["membranes"]: # loop through all membranes
@@ -26,11 +26,16 @@ while(time !=2):
         object_dict = {obj["type"]: obj["count"] for obj in memb["objects"]}
         to_add = {obj["type"]: 0 for obj in memb["objects"]}
         for i_r in memb["rules"]: #checks which rules may be applied this round
-            
+            usable_rule=True
             for i_r1 in i_r["input"]:
                 if i_r1["type"] not in object_dict or i_r1["count"] > object_dict[i_r1["type"]]:
+                    usable_rule=False
                     continue
-            valid_rl.append(i_r)
+            if usable_rule==True:
+                valid_rl.append(i_r)
+        if valid_rl==[]:
+            no_rules=True
+            break;
   
         while(len(valid_rl)!=0): #loop until all rules are no longer usable
             gacha=random.randint(0, len(valid_rl) - 1)
@@ -85,11 +90,12 @@ while(time !=2):
         print(memb["objects"])
         
         app_rl=""
-        valid_rl=[]
+        
         
     
         
-        
+#     if no_rules==True:    
+#         break;   
     print("\n")
     time+=1
    
