@@ -1,65 +1,77 @@
 {
     "membranes": [
 		{
-			 "id": 3,
-			 "objects":
-				[
-					{"type":"a", "count":1},{"type":"c", "count":1}
-					
-				],
-			 "children":[],
-			 "rules":[
+			"id":1,
+			"objects":[],
+			"rules":[
 				{
-					"input":[{"type":"a", "count":1}],
-					"output":[{"type":"a", "count":1},{"type":"b", "count":1}],
-					"type":"transform"
-				},
-				{
-					"input":[{"type":"a", "count":1}],
-					"output":[{"type":"b", "count":1}],
-					"type":"dissolve"
-				},
-				{
-					"input":[{"type":"c", "count":1}],
-					"output":[{"type":"c", "count":2}],
-					"type":"transform"
+					"input":[{"type":"e", "count":1}],
+					"output":[{"type":"e", "count":1}],
+					"type":"out"
 				}
-			 
-			 ]
-		},
-		{
-			 "id": 2,
-			 "objects":
-				[],
-			 "children":[3],
-			 "rules":[
+			],
+			"children":
+			[
 				{
-					"input":[{"type":"b", "count":1}],
-					"output":[{"type":"d", "count":1}],
-					"type":"transform"
-				},
-				{
-					"input":[{"type":"d", "count":1}],
-					"output":[{"type":"d", "count":1},{"type":"e", "count":1}],
-					"type":"transform"
-				},
-				{
-					"high":{
-						"input":[{"type":"c", "count":2}],
-						"output":[{"type":"c", "count":1}],
+				"id": 2,
+				"objects":[	],
+				"children":
+					[
+						{
+							"id": 3,
+							"objects":
+								[
+									{"type":"a", "count":1},{"type":"c", "count":1}
+									
+								],
+							"children":[],
+							"rules":[
+								{
+									"input":[{"type":"a", "count":1}],
+									"output":[{"type":"a", "count":1},{"type":"b", "count":1}],
+									"type":"transform"
+								},
+								{
+									"input":[{"type":"a", "count":1}],
+									"output":[{"type":"b", "count":1}],
+									"type":"dissolve"
+								},
+								{
+									"input":[{"type":"c", "count":1}],
+									"output":[{"type":"c", "count":2}],
+									"type":"transform"
+								}
+							 
+							]
+						}
+					],
+				"rules":[
+					{
+						"input":[{"type":"b", "count":1}],
+						"output":[{"type":"d", "count":1}],
 						"type":"transform"
-						},
-					"low":{
-						"input":[{"type":"c", "count":1}],
-						"output":[],
-						"type":"dissolve"
-						},
-					"type":"case"
-				}
-				
-			 
-			 ]
+					},
+					{
+						"input":[{"type":"d", "count":1}],
+						"output":[{"type":"d", "count":1},{"type":"e", "count":1}],
+						"type":"transform"
+					},
+					{
+						"high":{
+							"input":[{"type":"c", "count":2}],
+							"output":[{"type":"c", "count":1}],
+							"type":"transform"
+							},
+						"low":{
+							"input":[{"type":"c", "count":1}],
+							"output":[],
+							"type":"dissolve"
+							},
+						"type":"case"
+					} 
+				]
+			}
+			]
 		}
-		
 	]
 }

@@ -1,0 +1,17 @@
+{
+    "membranes": [
+		{
+			"id":1,
+			"objects":[{"type":"e", "count":4}],
+			"rules":[
+				{
+					"input":[{"type":"e", "count":1}],
+					"output":[{"type":"e", "count":1}],
+					"type":"out"
+				}
+			],
+			"children":
+			[	]
+		}
+	]
+}
