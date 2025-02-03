@@ -5,30 +5,29 @@
 			"objects":[{"type":"b", "count":2},{"type":"c", "count":4}],
 			"rules":[
 				{
-					{
-						"input":[{"type":"b", "count":1}],
-						"output":[{"type":"d", "count":1}],
+					"input":[{"type":"b", "count":1}],
+					"output":[{"type":"d", "count":1}],
+					"type":"transform"
+				},
+				{
+					"input":[{"type":"d", "count":1}],
+					"output":[{"type":"d", "count":1},{"type":"e", "count":1}],
+					"type":"transform"
+				},
+				{
+					"high":{
+						"input":[{"type":"c", "count":2}],
+						"output":[{"type":"c", "count":1}],
 						"type":"transform"
-					},
-					{
-						"input":[{"type":"d", "count":1}],
-						"output":[{"type":"d", "count":1},{"type":"e", "count":1}],
+						},
+					"low":{
+						"input":[{"type":"c", "count":1}],
+						"output":[{"type":"a", "count":1}],
 						"type":"transform"
-					},
-					{
-						"high":{
-							"input":[{"type":"c", "count":2}],
-							"output":[{"type":"c", "count":1}],
-							"type":"transform"
-							},
-						"low":{
-							"input":[{"type":"c", "count":1}],
-							"output":[],
-							"type":"dissolve"
-							},
-						"type":"case"
-					} 
-				}
+						},
+					"type":"case"
+				} 
+				
 			],
 			"children":
 			[	]

@@ -15,9 +15,9 @@ def rule_printer(rule):
     print("Output:" +", ".join(f"{obj['type']}^{obj['count']} " for obj in rule["output"]))
     
 
+environment =[]
 
-
-while(time !=5):
+while(time !=2):
     #determine which rules may be used
     print(f"===Time: {time} ===" )
     for memb in data["membranes"]: # loop through all membranes
@@ -90,7 +90,7 @@ while(time !=5):
     
         
         
-        
+    print("\n")
     time+=1
    
         
