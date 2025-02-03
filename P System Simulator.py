@@ -6,7 +6,8 @@ import random
 with open('sm_test.json', 'r') as file:
     data = json.load(file)
 
-
+def rule_casetest(objects,rule):
+    
 
 def rule_printer(rule):
     print("===Apply Rule===")
