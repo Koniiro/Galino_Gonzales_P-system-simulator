@@ -1,0 +1,141 @@
+# obj_list, x, y, neigh" need active
+import re
+trident = [
+    12, 14, 24, 28, 30, 48, 56, 60, 62, 96,
+    112, 120, 124, 126, 224, 240, 248, 252, 270, 286,
+    318, 386, 390, 398, 414, 450, 454, 462, 480, 482,
+    486, 496, 498, 504
+]
+
+
+
+def rule_01(obj_list, i, h, neigh):
+    if "s0" in obj_list and "pw" in obj_list:
+        return list(map(lambda x: "s1" if x == "s0" else x, obj_list))
+
+
+def rule_02(obj_list, i, h, neigh):
+    y="s0"
+    temp_list=[]
+    if y in obj_list:
+        temp_list=list(map(lambda x: "s11" if x == y else x, obj_list))
+    ij=i+h
+    temp_list.append(f'h{ij}')
+    return(temp_list)
+
+def rule_03(obj_list, i, h, neigh):
+    y="s1"
+    if y in obj_list:
+        letter, number = re.match(r"([a-zA-Z]+)(\d+)", s)
+        #return list(map(lambda x: "s2" if x == y else x, obj_list))
+    
+#no need to implement rule 03 as it simply replies s2 with s2 again
+# def rule_04(obj_list, i, h, neigh):
+#     y="s2"
+#     if y in obj_list:
+#         return list(map(lambda x: "s2" if x == y else x, obj_list))
+
+def rule_05(obj_list, i, h, neigh):
+    y="h"
+    h_holder=""
+    h_ind=0
+    pattern = r"^h\d+$"  # Matches "h" followed by one or more digits
+    h_exists = any(re.match(pattern, item) for item in obj_list)
+    
+    if h_exists and "s11" in obj_list:
+        #return list(map(lambda x: "s2" if x == y else x, obj_list))
+        for i in range(len(obj_list)):
+            if "h" in obj_list[i]:
+                h_holder=obj_list[i]
+                h_ind=i
+                break
+        val=int(h_holder[1:])
+        while(val>1):
+            val-=2
+        obj_list.pop(h_ind)
+        obj_list.append(f'h{val}')
+        return obj_list
+
+def rule_06(obj_list, i, h, neigh):
+    y="s11"
+    if y in obj_list:
+        return list(map(lambda x: "s12" if x == y else x, obj_list))
+
+# def rule_07(obj_list, i, h, neigh):
+#     pass
+def rule_08(obj_list, i, h, neigh):
+    y="s12"
+    h_holder=""
+    h_ind=0
+    temp_list=[]
+    pattern = r"^h\d+$"  # Matches "h" followed by one or more digits
+    h_exists = any(re.match(pattern, item) for item in obj_list)
+    
+    if h_exists and y in obj_list:
+        temp_list=list(map(lambda x: "s13" if x == y else x, obj_list))
+        for i in range(len(obj_list)):
+            if "h" in obj_list[i]:
+                h_holder=obj_list[i]
+                h_ind=i
+                break
+        val=int(h_holder[1:])
+        temp_list.pop(h_ind)
+        if val==0:
+            temp_list.append(f'h{1}')
+        else:
+            temp_list.append(f'h{0}')
+        return temp_list
+
+def rule_09(obj_list, i, h, neigh,active):
+    y="s13"
+    h_ind=0
+    val=0
+    for i in obj_list:
+        if "h" in i:
+            val=int(i[1:])
+            break
+    
+    if y in obj_list and val==active:
+        return list(map(lambda x: "s14" if x == y else x, obj_list))
+
+
+def rule_10(obj_list, i, h, neigh):
+    y="s13"
+    if y in obj_list:
+        return list(map(lambda x: "s34" if x == y else x, obj_list))
+    
+def rule_11(obj_list, i, h, neigh):
+    y="s14"
+    tride=0
+    temp_list=[]
+    for x in range(9):
+        if neigh[x]== "pb":
+            tride+=2**x
+    
+    if y in obj_list and tride in trident and "pb" in obj_list:
+        temp_list= list(map(lambda x: "s2" if x == y else x, obj_list))    
+        ind=temp_list.index("pb")
+        temp_list.pop(ind)
+        temp_list.append("pw")
+        return temp_list
+
+#def rule_12(obj_list, i, h, neigh):
+#    pass
+
+def rule_13(obj_list, i, h, neigh):
+    y="s14"
+    if y in obj_list:
+        return list(map(lambda x: "s12" if x == y else x, obj_list))
+def rule_14(obj_list, i, h, neigh):
+    y="s34"
+    if y in obj_list:
+        return list(map(lambda x: "s12" if x == y else x, obj_list))
+
+
+
+i=0
+h=1
+neigh=["pw","pw","pw","pw","pw","pb","pb","pb","pw"]
+x=["pb","s13","h0"]
+active=1
+print(rule_09(x,i,h,neigh,active))
