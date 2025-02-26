@@ -1,11 +1,8 @@
 from rule_module import rule_01, rule_02, rule_03, rule_05, rule_06, rule_08, rule_09, rule_10, rule_11, rule_13, rule_14
 from neighbor_gen_module import neighbor_gen
-i=1
-h=1
-central_neighborhood=["pb","pb","pb","pb","pw","pw","pw","pw","pw"]
-x=["pb","s0"]
+
 active=1
-neighbor_list=[]
+
 nodes=[
     [["pb","s0"],["pb","s0"],["pb","s0"]],
     [["pw","s0"],["pb","s0"],["pw","s0"]],
@@ -27,7 +24,7 @@ functions = {
 
 
 
-
+# Print Initial Configuration
 for x in nodes:
     print(x)
     
