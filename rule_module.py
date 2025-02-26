@@ -9,33 +9,37 @@ trident = [
 
 
 
-def rule_01(obj_list, i, h, neigh):
+def rule_01(obj_list, i, h, neigh, active):
     if "s0" in obj_list and "pw" in obj_list:
         return list(map(lambda x: "s1" if x == "s0" else x, obj_list))
+    else:
+        return obj_list
 
-
-def rule_02(obj_list, i, h, neigh):
+def rule_02(obj_list, i, h, neigh, active):
     y="s0"
     temp_list=[]
     if y in obj_list:
         temp_list=list(map(lambda x: "s11" if x == y else x, obj_list))
-    ij=i+h
-    temp_list.append(f'h{ij}')
-    return(temp_list)
+        ij=i+h
+        temp_list.append(f'h{ij}')
+        return temp_list
+    else:
+        return obj_list
 
-def rule_03(obj_list, i, h, neigh):
+def rule_03(obj_list, i, h, neigh, active):
     y="s1"
     if y in obj_list:
-        letter, number = re.match(r"([a-zA-Z]+)(\d+)", s)
-        #return list(map(lambda x: "s2" if x == y else x, obj_list))
-    
+        #letter, number = re.match(r"([a-zA-Z]+)(\d+)", s)
+        return list(map(lambda x: "s2" if x == y else x, obj_list))
+    else:
+        return obj_list
 #no need to implement rule 03 as it simply replies s2 with s2 again
-# def rule_04(obj_list, i, h, neigh):
+# def rule_04(obj_list, i, h, neigh, active):
 #     y="s2"
 #     if y in obj_list:
 #         return list(map(lambda x: "s2" if x == y else x, obj_list))
 
-def rule_05(obj_list, i, h, neigh):
+def rule_05(obj_list, i, h, neigh, active):
     y="h"
     h_holder=""
     h_ind=0
@@ -55,15 +59,20 @@ def rule_05(obj_list, i, h, neigh):
         obj_list.pop(h_ind)
         obj_list.append(f'h{val}')
         return obj_list
-
-def rule_06(obj_list, i, h, neigh):
+    else:
+        return obj_list
+    
+def rule_06(obj_list, i, h, neigh, active):
     y="s11"
     if y in obj_list:
         return list(map(lambda x: "s12" if x == y else x, obj_list))
-
-# def rule_07(obj_list, i, h, neigh):
+    else:
+        return obj_list
+    
+# def rule_07(obj_list, i, h, neigh, active, active, active):
 #     pass
-def rule_08(obj_list, i, h, neigh):
+
+def rule_08(obj_list, i, h, neigh, active):
     y="s12"
     h_holder=""
     h_ind=0
@@ -85,8 +94,10 @@ def rule_08(obj_list, i, h, neigh):
         else:
             temp_list.append(f'h{0}')
         return temp_list
+    else:
+        return obj_list
 
-def rule_09(obj_list, i, h, neigh,active):
+def rule_09(obj_list, i, h, neigh, active):
     y="s13"
     h_ind=0
     val=0
@@ -97,19 +108,22 @@ def rule_09(obj_list, i, h, neigh,active):
     
     if y in obj_list and val==active:
         return list(map(lambda x: "s14" if x == y else x, obj_list))
+    else:
+        return obj_list
 
-
-def rule_10(obj_list, i, h, neigh):
+def rule_10(obj_list, i, h, neigh, active):
     y="s13"
     if y in obj_list:
         return list(map(lambda x: "s34" if x == y else x, obj_list))
+    else:
+        return obj_list
     
-def rule_11(obj_list, i, h, neigh):
+def rule_11(obj_list, i, h, neigh, active):
     y="s14"
     tride=0
     temp_list=[]
     for x in range(9):
-        if neigh[x]== "pb":
+        if neigh[x]== "pw":
             tride+=2**x
     
     if y in obj_list and tride in trident and "pb" in obj_list:
@@ -118,24 +132,62 @@ def rule_11(obj_list, i, h, neigh):
         temp_list.pop(ind)
         temp_list.append("pw")
         return temp_list
+    else:
+        return obj_list
 
-#def rule_12(obj_list, i, h, neigh):
+#def rule_12(obj_list, i, h, neigh, active):
 #    pass
 
-def rule_13(obj_list, i, h, neigh):
+def rule_13(obj_list, i, h, neigh, active ):
     y="s14"
     if y in obj_list:
         return list(map(lambda x: "s12" if x == y else x, obj_list))
-def rule_14(obj_list, i, h, neigh):
+    else:
+        return obj_list
+
+def rule_14(obj_list, i, h, neigh, active ):
     y="s34"
     if y in obj_list:
         return list(map(lambda x: "s12" if x == y else x, obj_list))
+    else:
+        return obj_list
+
+
+# i=1
+# h=0
+neigh=["pb","pb","pb","pb","pw","pw","pw","pw","pw"]
+# x=["pw","s1"]
+# active=1
+# print(rule_03(x,i,h,neigh,active))
+# functions = {
+#     "rule_01": rule_01,
+#     "rule_02": rule_02,
+#     "rule_03": rule_03,
+#     "rule_05": rule_05,
+#     "rule_06": rule_06,
+#     "rule_08": rule_08,
+#     "rule_09": rule_09,
+#     "rule_10": rule_10,
+#     "rule_11": rule_11,
+#     "rule_13": rule_13,
+#     "rule_14": rule_14
+# }
+# 
+# 
+# for name, func in functions.items():
+#     print(f"Executing {name}:")
+#     
+#     x,neigh=func(x,i,h,neigh,active)
+#     print(x)
+#     print(neigh)
 
 
 
-i=0
-h=1
-neigh=["pw","pw","pw","pw","pw","pb","pb","pb","pw"]
-x=["pb","s13","h0"]
-active=1
-print(rule_09(x,i,h,neigh,active))
+
+# x=0
+# for i in range(len(neigh)):
+#     if neigh[i]=="pw":
+#         x+=2**i
+# print(x)
+# print(x in trident)
+#         
