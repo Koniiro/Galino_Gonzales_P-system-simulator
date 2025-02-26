@@ -131,9 +131,9 @@ def rule_11(obj_list, i, h, neigh, active):
         ind=temp_list.index("pb")
         temp_list.pop(ind)
         temp_list.append("pw")
-        return temp_list
+        return temp_list, 1
     else:
-        return obj_list
+        return obj_list,0
 
 #def rule_12(obj_list, i, h, neigh, active):
 #    pass
@@ -155,7 +155,7 @@ def rule_14(obj_list, i, h, neigh, active ):
 
 # i=1
 # h=0
-neigh=["pb","pb","pb","pb","pw","pw","pw","pw","pw"]
+#neigh=["pb","pb","pb","pb","pw","pw","pw","pw","pw"]
 # x=["pw","s1"]
 # active=1
 # print(rule_03(x,i,h,neigh,active))
