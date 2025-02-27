@@ -1,0 +1,19 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: ' Galino_Gonzales_P-system-simulator '
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: John Henry
+    family-names: Galino
+    email: jagalino@up.edu.ph
+    affiliation: University of the Philippines Diliman
+  - given-names: Isaiah Nikolo
+    family-names: Gonzales
+    email: iagonzales1@up.edu.ph
+    affiliation: University of the Philippines Diliman
+license: 0BSD
