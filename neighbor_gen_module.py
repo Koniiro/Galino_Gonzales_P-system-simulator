@@ -9,6 +9,7 @@ def neighbor_proc(i,j):
         (i+1, j-1),  # Bottom-left
         (i, j-1)     # Left
     ]
+
 def neighbor_gen(nodes):
     temp_holder=[]
     
@@ -32,7 +33,5 @@ def neighbor_gen(nodes):
                         hold.append("pw")
             row.append(hold)
         temp_holder.append(row)
-
-    
    
     return temp_holder
