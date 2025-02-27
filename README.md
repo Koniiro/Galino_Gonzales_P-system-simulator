@@ -1,95 +1,98 @@
 # Galino_Gonzales_P-system-simulator
 
-To simulate a P system with complex objects, we need to pay attention to two
-components: generic rules and complex objects. As such, the input format for the
-simulator will be as follows.
-```json
-{
-	membranes: [Membrane]
-}
+This simulator is a Python implementation of the Single Celled P-system proposed by **Radu Nicolescu** in [Parallel Thinning With Complex Objects and Actors](https://link.springer.com/chapter/10.1007/978-3-319-14370-5_21 "*Parallel Thinning With Complex Objects and Actors") in 2014. This model is one of three proposed membrane computing models of the Guo-Hall Skeletonization Algorithm in the same paper.
+
+The program primarily consists of three files:  
+1. `SCP System G_H Implementation.py` - Primary Implementation File
+2. `neighbor_gen_module.py` - Calculates the coordinates of the neighbors of a specified cell
+3. `rule_module.py` - Implementation of Rules described in Nicolescu 2014
+
+## Usage
+
+### Input
+The primary input of the simulator  is the nested-array *nodes*, structured as a 3x3 grid following the format used in Nicolescu (2014). This array consists of three sub-arrays, each containing three additional sub-arrays, effectively forming a 3x3 structure. These cells store the initial configuration of the grid for processing.
+
+
+<figure style="text-align: center;">
+	<figcaption><em>Figure 1: A sample initial configuration of the image below can be found in Code Block 1 </em></figcaption>
+  <p align="center"><img src="https://github.com/Koniiro/Galino_Gonzales_P-system-simulator/blob/main/Images/Initial%20State.png" alt="Sample Initial Configuration"></p>
+  
+</figure>
+
+
+#### Code Block 1
+```python
+#Sample Initial Configuration of  3x3 Grid
+nodes=[
+		[["pb","s0"],["pb","s0"],["pb","s0"]],
+		[["pw","s0"],["pb","s0"],["pw","s0"]],
+		[["pw","s0"],["pw","s0"],["pw","s0"]]
+    ]
 ```
-The input will be a JSON object containing a single field: `membranes`.
-`membranes` is a list of objects of type `Membrane`. The `Membrane` type
-represent the membranes of the P system being simulated. Since the P system is
-a single membrane system with no other membranes nested within it, we won't need
-to think currently about how to represent nested membranes (although this could
-be as easy as adding a `children` field to the `Membrane` type). 
+### Runtime
+During runtime, the simulator processes each rule by attempting to apply it to the cells in the grid. If a cell meets the rule's conditions, the rule is applied. The simulator will display the rule being applied and print the contents of each cell after the application attempt. The cells are printed in order: (0,0), (0,1),(0,2),(1,0), ..., (2,2).
 
-## The `Membrane` type
-The `Membrane` type has the following fields:
-```json
-{
-	id: int
-	generic_rules: [GenericRule]
-	instantiated_rules: [InstantiatedRule],
-	objects: [Object]
-}
+#### Code Block 2
+```python
+Executing rule_01:
+['pb', 's0']
+['pb', 's0']
+['pb', 's0']
+['pw', 's1']
+['pb', 's0']
+['pw', 's1']
+['pw', 's1']
+['pw', 's1']
+['pw', 's1']
 ```
-The `id` field represents the id of the membrane. The `generic_rules` field is
-a list of objects of type `GenericRule`. This field represents the generic rules
-that are contained in the current membraine. The `instantiated_rules` field is
-a list of objects of type `InstantiatedRule`. This field serves as a container
-for the rules that will be generated using the `GenericRule` objects in the
-`generic_rules` field. The `objects` field is a list of `Object`, where each
-`Object` will represent a generic object in the membrane. `Object` is actually
-just an alias to `string`. We want to use strings to implement generic objects
-because string methods and regex can make the implementation of pattern matching
-much easier.
 
-## The `GenericRule` type
-The `GenericRule` type will have the following fields:
-```json
-{
-	instantiation_mode: MIN | MAX,
-	input: Object,
-	output: Object,
+<figure style="text-align: center;">
+	<figcaption><em>Figure 2: State of grid following application of Rule 1 </em></figcaption>
+  <p align="center"><img src="https://github.com/Koniiro/Galino_Gonzales_P-system-simulator/blob/main/Images/R1State.png" alt="State of grid after Rule 1"></p>
+  
+</figure>
+<figure style="text-align: center;">
+	<figcaption><em>Figure 3: Rule 1 as described in Nicolescu (2014) </em></figcaption>
+  <p align="center"><img src="https://github.com/Koniiro/Galino_Gonzales_P-system-simulator/blob/main/Images/rule1.png" alt="Rule 1 Nicolescu (2014)"></p>
+</figure>
 
-	match(objects: [Object]) -> [InstantiatedRule]
-}
+
+After attempting to apply each implemented rule, the simulator will check the value of the variable `checksum`. This value is used to determine how many times rule 11 has been successfully applied.
+
+In other words, if a cell was changed from black to white as part of the skeletonization process, it means rule 11 was applied. If rule 11 has been applied at least once, the simulator will conduct another round of applying each rule.
+
+<figure style="text-align: center;">
+	<figcaption><em>Figure 4: Rule 11 as described in Nicolescu (2014) </em></figcaption>
+  <p align="center"><img src="https://github.com/Koniiro/Galino_Gonzales_P-system-simulator/blob/main/Images/r11.png" alt="Rule 11 Nicolescu (2014)"></p>
+</figure>
+
+
+This process will continue until rule 11 can no longer be applied.
+###Output
+If no further rounds are to be conducted, the simulator will print out the final configuration of the 3x3 grid as well as indicate how many rounds were taken to reach this result.
+
+#### Code Block 3
+```python
+=====Finished=====
+Final Configuration
+Rounds Taken: 2
+[['s2', 'h1', 'pw'], ['pb', 's12', 'h1'], ['s2', 'h1', 'pw']]
+[['pw', 's2'], ['s2', 'h1', 'pw'], ['pw', 's2']]
+[['pw', 's2'], ['pw', 's2'], ['pw', 's2']]
 ```
-The `instantiation_mode` field will represent the mode in which
-`InstantiatedRule` objects will be generated from the generic rule. The value
-of the field will either be `MIN` or `MAX`. The `input` field will represent
-the left-hand side of a generic rule while the `output` field will represent
-the right-hand side of the rule. Apart from the fields, the `GenericRule` type
-will also have a method to it named `match`. The `match` method will accept a
-list of `Object` and return a list of `InstantiatedRule` objects. The current
-plan on the usage of this `match` method is that it will take in the entire
-`objects` field of the `Membrane` type as its argument and return a list of
-`InstantiatedRule` objects that will be appended the `instantiated_rules` list.
-More info about this will be written on the section about simulator operation
 
-## The `InstantiatedRule` type
-The `InstantiatedRUle` type will have the following fields:
-```json
-{
-	rewriting_mode: MIN | MAX,
-	input: Object,
-	output: Object,
-}
-```
-The `rewriting_mode` field will represent the mode in which the
-`InstantiatedRule`  will be applied to the objects in the `objects` field of
-the `Membrane` type. The `input` field will represent the left-hand side of the
-rule, while the `output` field will represent the right-hand side of the rule.
-Application of the `InstantiatedRule` objects to the objects in the `objects`
-field has still not been finalized yet, although I suggest that we could also
-add a method to apply the rule on the objects that will take in a list of `Object` as argument
-and return a list of `Object`, similar to the `match` method in `GenericRule`.
+<figure style="text-align: center;">
+	<figcaption><em>Figure 5: Final state of grid following skeletonization </em></figcaption>
+<p align="center"><img src="https://github.com/Koniiro/Galino_Gonzales_P-system-simulator/blob/main/Images/Final%20State.png" alt="Sample Final Configuration"></p>
+  
+</figure>
 
-## How will the simulator work?
-The following steps are how the simulator is currently envisioned to work.
-1. The simulator will take in and parse the input as described above.
-2. A loop will be created to process each membrane. 
-3. In each iteration of the loop, a `GenericRule` object will be processed. 
-   The `GenericRule` object will call its `match` method, taking in the `objects`
-   field as its argument to generate instantiated rules in the `instantiated_rules`
-   list.
-4. Apply all instantiated rules on the objects in the `objects` field.
-5. Proceed to next membrane.
 
-The stopping condition of the loop should be when there are no more changes from
-the `p(b)` object to the `p(w)` object. As such, when the rule involving the
-`p(b)` to `p(w)` transition is being applied, the number of changes should be
-kept track.
  
+## Authors
+
+- [@jhgalino](https://github.com/jhgalino)
+- [@Koniiro](https://github.com/Koniiro)
+
+## References
+- Nicolescu, R. (2014). Parallel Thinning with Complex Objects and Actors. In: Gheorghe, M., Rozenberg, G., Salomaa, A., Sosík, P., Zandron, C. (eds) Membrane Computing. CMC 2014. Lecture Notes in Computer Science(), vol 8961. Springer, Cham. https://doi.org/10.1007/978-3-319-14370-5_21
