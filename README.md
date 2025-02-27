@@ -1,6 +1,6 @@
 # Galino_Gonzales_P-system-simulator
 
-This simulator is a Python implementation of the Single Celled P-system proposed by **Radu Nicolescu** in [Parallel Thinning With Complex Objects and Actors](https://link.springer.com/chapter/10.1007/978-3-319-14370-5_21 "*Parallel Thinning With Complex Objects and Actors") in 2014. This model is one of three proposed membrane computing models of the Guo-Hall Skeletonization Algorithm in the same paper.
+This simulator is a Python implementation of the Single Cell P-system proposed by **Radu Nicolescu** in [Parallel Thinning With Complex Objects and Actors](https://link.springer.com/chapter/10.1007/978-3-319-14370-5_21 "*Parallel Thinning With Complex Objects and Actors") in 2014. This model is one of three proposed membrane computing models of the Guo-Hall Skeletonization Algorithm in the same paper.
 
 The program primarily consists of three files:  
 1. `SCP System G_H Implementation.py` - Primary Implementation File
