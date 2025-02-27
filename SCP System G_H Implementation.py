@@ -53,6 +53,9 @@ while(True):
         break
     checksum=0
     rnd+=1
-       
+print("=====Finished=====\nFinal Configuration")
+print(f'Rounds Taken: {rnd}')
+for x in nodes:
+    print(x)
 
    
