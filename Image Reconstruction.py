@@ -5,7 +5,7 @@ import numpy as np
 
 
 
-def image_recon(input_array,debug,image_gen):
+def image_recon(input_array,debug,image_gen,image_save,save_path):
     holder=[]
     for i_x in input_array:
         temp=[]
@@ -28,7 +28,8 @@ def image_recon(input_array,debug,image_gen):
         # 
         # # Create and save the image
         image = Image.fromarray(image_array, mode="L")  # "L" = grayscale mode
-        image.save("reconstructed_image.png")
+        if image_save==1:
+            image.save("reconstructed_image.png")
         image.show()  # Opens the image
         
 nodes=[
@@ -43,4 +44,9 @@ nodes=[
 [['s2', 'h1', 'pw'], ['pb', 's12', 'h1'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['s2', 'h1', 'pw'], ['pb', 's12', 'h1']],
 [['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2']]
 ]
-image_recon(nodes,1,0)
+
+save_path="reconstructed_image.png"
+debug=1
+image_gen=1
+image_save=0
+image_recon(nodes,debug,image_gen,image_save,save_path)
