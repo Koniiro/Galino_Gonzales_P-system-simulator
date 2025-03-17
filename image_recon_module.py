@@ -31,8 +31,9 @@ def image_recon(input_array,debug,image_gen,image_save,save_path):
         if image_save==1:
             image.save("reconstructed_image.png")
         image.show()  # Opens the image
-        
-nodes=[
+
+ #=======================DEBUG=======================       
+test_nodes=[
 [['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2']],
 [['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['pb', 's12', 'h1'], ['s2', 'h1', 'pw'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2']],
 [['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['pb', 's12', 'h1'], ['s2', 'h1', 'pw'], ['pb', 's12', 'h1'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2']],
@@ -44,9 +45,12 @@ nodes=[
 [['s2', 'h1', 'pw'], ['pb', 's12', 'h1'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['s2', 'h1', 'pw'], ['pb', 's12', 'h1']],
 [['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2'], ['pw', 's2']]
 ]
+cross_nodes=[[['pw', 's2'], ['pb', 's12', 'h0'], ['pw', 's2']],
+[['pb', 's12', 'h0'], ['pb', 's12', 'h1'], ['pb', 's12', 'h0']],
+[['pw', 's2'], ['pb', 's12', 'h0'], ['pw', 's2']]]
 
-save_path="reconstructed_image.png"
-debug=1
-image_gen=1
-image_save=0
-image_recon(nodes,debug,image_gen,image_save,save_path)
+#save_path="reconstructed_image.png"
+#debug=1
+#image_gen=1
+#image_save=0
+#image_recon(cross_nodes,debug,image_gen,image_save,save_path)
