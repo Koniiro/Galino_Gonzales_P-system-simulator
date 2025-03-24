@@ -20,128 +20,128 @@ from neighbor_gen_module import neighbor_gen
 #    [["pb","s0"],["pb","s0"],["pb","s0"]],
 #    [["pw","s0"],["pb","s0"],["pw","s0"]]
 #    ]
-nodes = [
-    [
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-    ],
-    [
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pb", "s0"],
-        ["pb", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-    ],
-    [
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pb", "s0"],
-        ["pb", "s0"],
-        ["pb", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-    ],
-    [
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pb", "s0"],
-        ["pw", "s0"],
-        ["pb", "s0"],
-        ["pb", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-    ],
-    [
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pb", "s0"],
-        ["pb", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pb", "s0"],
-        ["pb", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-    ],
-    [
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pb", "s0"],
-        ["pb", "s0"],
-        ["pb", "s0"],
-        ["pb", "s0"],
-        ["pb", "s0"],
-        ["pb", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-    ],
-    [
-        ["pw", "s0"],
-        ["pb", "s0"],
-        ["pb", "s0"],
-        ["pw", "s0"],
-        ["pb", "s0"],
-        ["pb", "s0"],
-        ["pb", "s0"],
-        ["pb", "s0"],
-        ["pb", "s0"],
-        ["pw", "s0"],
-    ],
-    [
-        ["pw", "s0"],
-        ["pb", "s0"],
-        ["pb", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pb", "s0"],
-        ["pw", "s0"],
-    ],
-    [
-        ["pb", "s0"],
-        ["pb", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pb", "s0"],
-        ["pb", "s0"],
-    ],
-    [
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-        ["pw", "s0"],
-    ],
-]
+# nodes = [
+#     [
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#     ],
+#     [
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pb", "s0"],
+#         ["pb", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#     ],
+#     [
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pb", "s0"],
+#         ["pb", "s0"],
+#         ["pb", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#     ],
+#     [
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pb", "s0"],
+#         ["pw", "s0"],
+#         ["pb", "s0"],
+#         ["pb", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#     ],
+#     [
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pb", "s0"],
+#         ["pb", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pb", "s0"],
+#         ["pb", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#     ],
+#     [
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pb", "s0"],
+#         ["pb", "s0"],
+#         ["pb", "s0"],
+#         ["pb", "s0"],
+#         ["pb", "s0"],
+#         ["pb", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#     ],
+#     [
+#         ["pw", "s0"],
+#         ["pb", "s0"],
+#         ["pb", "s0"],
+#         ["pw", "s0"],
+#         ["pb", "s0"],
+#         ["pb", "s0"],
+#         ["pb", "s0"],
+#         ["pb", "s0"],
+#         ["pb", "s0"],
+#         ["pw", "s0"],
+#     ],
+#     [
+#         ["pw", "s0"],
+#         ["pb", "s0"],
+#         ["pb", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pb", "s0"],
+#         ["pw", "s0"],
+#     ],
+#     [
+#         ["pb", "s0"],
+#         ["pb", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pb", "s0"],
+#         ["pb", "s0"],
+#     ],
+#     [
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#         ["pw", "s0"],
+#     ],
+# ]
 
 # #4x5
 # nodes=[
@@ -150,7 +150,6 @@ nodes = [
 #    [["pw","s0"],["pb","s0"],["pb","s0"],["pb","s0"],["pw","s0"]],
 #    [["pw","s0"],["pw","s0"],["pb","s0"],["pb","s0"],["pb","s0"]]
 #    ]
-
 
 functions = {
     "rule_01": rule_01,
@@ -172,39 +171,39 @@ checksum = 0
 rnd = 1
 
 # Print Initial Configuration
-for x in nodes:
-    print(x)
+# for x in nodes:
+#     print(x)
 
 
-while True:
-    print(f"Round {rnd}")
+# while True:
+#     print(f"Round {rnd}")
 
-    for name, func in functions.items():
-        print(f"Executing {name}:")
-        neyb = neighbor_gen(nodes)
-        for i_x in range(len(nodes)):
-            for i_y in range(len(nodes[i_x])):
-                if name == "rule_11":
-                    nodes[i_x][i_y], check = func(
-                        nodes[i_x][i_y], i_x, i_y, neyb[i_x][i_y], active
-                    )
-                    checksum += check
+#     for name, func in functions.items():
+#         print(f"Executing {name}:")
+#         neyb = neighbor_gen(nodes)
+#         for i_x in range(len(nodes)):
+#             for i_y in range(len(nodes[i_x])):
+#                 if name == "rule_11":
+#                     nodes[i_x][i_y], check = func(
+#                         nodes[i_x][i_y], i_x, i_y, neyb[i_x][i_y], active
+#                     )
+#                     checksum += check
 
-                else:
-                    nodes[i_x][i_y] = func(
-                        nodes[i_x][i_y], i_x, i_y, neyb[i_x][i_y], active
-                    )
-                print(nodes[i_x][i_y])
-            print("---------")
+#                 else:
+#                     nodes[i_x][i_y] = func(
+#                         nodes[i_x][i_y], i_x, i_y, neyb[i_x][i_y], active
+#                     )
+#                 print(nodes[i_x][i_y])
+#             print("---------")
 
-    if checksum == 0:
-        break
-    checksum = 0
-    rnd += 1
-print("=====Finished=====\nFinal Configuration")
-print(f"Rounds Taken: {rnd}")
-for x in nodes:
-    print(x)
+#     if checksum == 0:
+#         break
+#     checksum = 0
+#     rnd += 1
+# print("=====Finished=====\nFinal Configuration")
+# print(f"Rounds Taken: {rnd}")
+# for x in nodes:
+#     print(x)
 
 
 def guo_hall(nodes: list[list[str]]):
@@ -239,4 +238,4 @@ def guo_hall(nodes: list[list[str]]):
         checksum = 0
         rnd += 1
 
-        yield(nodes)
+        yield (nodes)
