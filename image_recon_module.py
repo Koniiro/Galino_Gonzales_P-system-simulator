@@ -29,7 +29,7 @@ def image_recon(input_array,debug,image_gen,image_save,save_path):
         # # Create and save the image
         image = Image.fromarray(image_array, mode="L")  # "L" = grayscale mode
         if image_save==1:
-            image.save("reconstructed_image.png")
+            image.save(save_path)
         image.show()  # Opens the image
 
  #=======================DEBUG=======================       

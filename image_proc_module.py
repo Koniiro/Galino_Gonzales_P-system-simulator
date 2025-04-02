@@ -4,9 +4,9 @@ import numpy as np
 
 
 
-def image_proc(input_path,debug):
+def image_proc(input_path,debug,threshold):
     image = Image.open(input_path).convert("L")  # Convert to grayscale
-    threshold = 128  # Midpoint threshold for black/white conversion
+    #threshold = 128  # Midpoint threshold for black/white conversion
     binary_array = np.array(image) < threshold  # True = black, False = white
     binary_array = np.array(binary_array.astype(int), dtype=np.uint8)
     
@@ -32,6 +32,6 @@ def image_proc(input_path,debug):
         print(holder)
         
     return holder
-#image_path = "Test-Cases/pine_test.png"  # Replace with your image path
+#image_path = "pine_test.png"  # Replace with your image path
 #print(image_proc(image_path,0))
 

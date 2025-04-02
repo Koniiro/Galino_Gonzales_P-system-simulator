@@ -41,8 +41,8 @@ def SCP_Skeletonizer(nodes,verbose):
         
 
     while(True):
-        if verbose==1:
-            print(f'Round {rnd}')
+        #if verbose==1:
+        print(f'Round {rnd}')
         
         for name, func in functions.items():
             if verbose==1:
@@ -74,18 +74,27 @@ def SCP_Skeletonizer(nodes,verbose):
     return final_arr
 
 # ===== Choose Input Image =====
-img_path = "pine_test.png"  # Replace with your image path
-test_image=image_proc(img_path,0)
-print(test_image)
+img_path = "../Input-images/dlsu_seal.png"  # Replace with your image path
+threshold=127
+BW_Image=image_proc(img_path,0,threshold)
+print(BW_Image)
 
-# ===== Conduct Skeletonization ====
-output_states=SCP_Skeletonizer(test_image,0)
-print(output_states)
-
-# ===== Reconstruct Image =====
-save_path="reconstructed_image.png"
+# ===== Reconstruct BW Image =====
+save_pathbw=f'../Output-Images/dlsu-TR{threshold}-BW.png'
 debug=1
 image_gen=1
-image_save=0
-image_recon(output_states,debug,image_gen,image_save,save_path)
-   
+image_save=1
+image_recon(BW_Image,debug,image_gen,image_save,save_pathbw)
+
+# ===== Conduct Skeletonization ====
+output_states=SCP_Skeletonizer(BW_Image,0)
+print(output_states)
+
+# ===== Reconstruct SKL Image =====
+save_pathproc=f'../Output-Images/Pinetest_TR{threshold}-SKL.png'
+
+debug=1
+image_gen=1
+image_save=1
+
+image_recon(output_states,debug,image_gen,image_save,save_pathproc)
