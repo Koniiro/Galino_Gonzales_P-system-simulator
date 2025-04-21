@@ -20,24 +20,24 @@ functions = {
 
 
 
-def SCP_Skeletonizer(nodes,verbose):
+def SCP_Skeletonizer(nodes,verbose,rule_debug):
     active=1
     check=0
     checksum=0
     rnd=1
     # Print Initial Configuration
-    #if verbose==1:
-    print("==Initial Configuration==")
-    for x in nodes:
-       print(x)
-            
+    if verbose==1:
+        print("==Initial Configuration==")
+        for x in nodes:
+           print(x)
+                
 
     while(True):
         #if verbose==1:
         print(f'Round {rnd}')
         
         for name, func in functions.items():
-            if verbose==1:
+            if rule_debug==1:
                 print(f"Executing {name}:")
             neyb=neighbor_gen(nodes)
             for i_x in range(len(nodes)):
@@ -49,7 +49,7 @@ def SCP_Skeletonizer(nodes,verbose):
                         
                     else:
                         nodes[i_x][i_y]=func(nodes[i_x][i_y],i_x,i_y,neyb[i_x][i_y],active)
-                if verbose==1:
+                if rule_debug==1:
                     print(nodes[i_x][i_y])
                     print("---------")
             
@@ -71,36 +71,54 @@ def SCP_Skeletonizer(nodes,verbose):
 #===== inputs =====
 # command line input: python 
 if len(sys.argv)==1:
-    img_name="Pasig_Wordmark"
-    threshold=20
+    file_name="file_name"
+    threshold=100 #180 is midpoint
+    neg=0
 else:
-    img_name=sys.argv[1]
+    assert len(sys.argv)==4, "Too many arguments. Arguments are as follows file_name, threshold, negative"
+    file_name=sys.argv[1]
     threshold=int(sys.argv[2])
-    
+   
+    neg=int(sys.argv[3])
+assert threshold>=0 or threshold<=255, "Threshold should be fro mthe range 0-255"
+assert neg==0 or neg==1, "neg should be either 1 or 0"
+img_name=file_name.split(".")[0]
+
+
 st=time.time()
 
 current_time = time.strftime("%H:%M:%S", time.localtime())
 print(f'Starting Time: {current_time}')
 
 # ===== Choose Input Image =====
-img_path = f'../Input-images/{img_name}.png'  # Replace with your image path
+img_path = f'../Input-images/{file_name}'  # Replace with your image path
+debug=0
+bg=0
 
-BW_Image=image_proc(img_path,0,threshold)
-#print(BW_Image)
+BW_Image=image_proc(img_path,bg,neg,threshold,debug)
+
 
 # ===== Reconstruct BW Image =====
-save_pathbw=f'../Output-Images/{img_name}-TR{threshold}-BW.png'
+if neg==0:
+    save_pathbw=f'../Output-Images/Ver2/{img_name}-TR{threshold}-BW.png'
+elif neg==1: #negative image
+    save_pathbw=f'../Output-Images/Ver2/{img_name}-TR{threshold}-BW-neg.png'
+
 debug=0
 image_gen=1
 image_save=1
 image_recon(BW_Image,debug,image_gen,image_save,save_pathbw)
 
 # ===== Conduct Skeletonization ====
-output_states=SCP_Skeletonizer(BW_Image,0)
+output_states=SCP_Skeletonizer(BW_Image,1,0)
 #print(output_states)
 
 # ===== Reconstruct SKL Image =====
-save_pathproc=f'../Output-Images/{img_name}-TR{threshold}-SKL.png'
+if neg==0:
+    save_pathproc=f'../Output-Images/Ver2/{img_name}-TR{threshold}-SKL.png'
+elif neg==1: #negative image
+    save_pathproc=f'../Output-Images/Ver2/{img_name}-TR{threshold}-SKL-neg.png'
+
 
 debug=0
 image_gen=1
