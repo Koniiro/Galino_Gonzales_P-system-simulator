@@ -3,7 +3,7 @@ from neighbor_gen_module import neighbor_gen
 from image_proc_module import image_proc
 from image_recon_module import image_recon
 import time
-
+import sys
 functions = {
     "rule_01": rule_01,
     "rule_02": rule_02,
@@ -26,10 +26,11 @@ def SCP_Skeletonizer(nodes,verbose):
     checksum=0
     rnd=1
     # Print Initial Configuration
-    print("==Initial Configuration")
+    #if verbose==1:
+    print("==Initial Configuration==")
     for x in nodes:
        print(x)
-        
+            
 
     while(True):
         #if verbose==1:
@@ -56,17 +57,26 @@ def SCP_Skeletonizer(nodes,verbose):
             break
         checksum=0
         rnd+=1
-    print("=====Finished=====\nFinal Configuration")
+    print("=====Finished=====")
     print(f'Rounds Taken: {rnd}')
+    if verbose==1:
+        print("Final Configuration")
     final_arr=[]
     for x in nodes:
-        print(x)
+        if verbose==1:
+            print(x)
         final_arr.append(x)
     return final_arr
 
 #===== inputs =====
-img_name="Pasig_City_Seal_Logo"
-threshold=127
+# command line input: python 
+if len(sys.argv)==1:
+    img_name="Pasig_Wordmark"
+    threshold=20
+else:
+    img_name=sys.argv[1]
+    threshold=int(sys.argv[2])
+    
 st=time.time()
 
 current_time = time.strftime("%H:%M:%S", time.localtime())
