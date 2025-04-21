@@ -32,6 +32,8 @@ def image_proc(input_path,debug,threshold):
         print(holder)
         
     return holder
-#image_path = "pine_test.png"  # Replace with your image path
-#print(image_proc(image_path,0))
+
+if __name__ == "__main__":
+    image_path = "pine_test.png"  # Replace with your image path
+    print(image_proc(image_path,0))
 

@@ -2,16 +2,7 @@ from rule_module import rule_01, rule_02, rule_03, rule_05, rule_06, rule_08, ru
 from neighbor_gen_module import neighbor_gen
 from image_proc_module import image_proc
 from image_recon_module import image_recon
-
-
-#3x3
-cross_nodes=[
-   [["pw","s0"],["pb","s0"],["pw","s0"]],
-   [["pb","s0"],["pb","s0"],["pb","s0"]],
-   [["pw","s0"],["pb","s0"],["pw","s0"]]
-   ]
-
-
+import time
 
 functions = {
     "rule_01": rule_01,
@@ -73,28 +64,41 @@ def SCP_Skeletonizer(nodes,verbose):
         final_arr.append(x)
     return final_arr
 
-# ===== Choose Input Image =====
-img_path = "../Input-images/dlsu_seal.png"  # Replace with your image path
+#===== inputs =====
+img_name="Pasig_City_Seal_Logo"
 threshold=127
+st=time.time()
+
+current_time = time.strftime("%H:%M:%S", time.localtime())
+print(f'Starting Time: {current_time}')
+
+# ===== Choose Input Image =====
+img_path = f'../Input-images/{img_name}.png'  # Replace with your image path
+
 BW_Image=image_proc(img_path,0,threshold)
-print(BW_Image)
+#print(BW_Image)
 
 # ===== Reconstruct BW Image =====
-save_pathbw=f'../Output-Images/dlsu-TR{threshold}-BW.png'
-debug=1
+save_pathbw=f'../Output-Images/{img_name}-TR{threshold}-BW.png'
+debug=0
 image_gen=1
 image_save=1
 image_recon(BW_Image,debug,image_gen,image_save,save_pathbw)
 
 # ===== Conduct Skeletonization ====
 output_states=SCP_Skeletonizer(BW_Image,0)
-print(output_states)
+#print(output_states)
 
 # ===== Reconstruct SKL Image =====
-save_pathproc=f'../Output-Images/Pinetest_TR{threshold}-SKL.png'
+save_pathproc=f'../Output-Images/{img_name}-TR{threshold}-SKL.png'
 
-debug=1
+debug=0
 image_gen=1
 image_save=1
 
 image_recon(output_states,debug,image_gen,image_save,save_pathproc)
+et = time.time()
+elapsed=et-st
+current_time = time.strftime("%H:%M:%S", time.localtime())
+print(f'End Time: {current_time}')
+print('Execution time:', elapsed, 'seconds')
