@@ -2,6 +2,7 @@ from rule_module import rule_01, rule_02, rule_03, rule_05, rule_06, rule_08, ru
 from neighbor_gen_module import neighbor_gen
 from image_proc_module import image_proc
 from image_recon_module import image_recon
+from log_generator import log_maker
 import time
 import sys
 functions = {
@@ -66,13 +67,13 @@ def SCP_Skeletonizer(nodes,verbose,rule_debug):
         if verbose==1:
             print(x)
         final_arr.append(x)
-    return final_arr
+    return final_arr, rnd
 
 #===== inputs =====
 # command line input: python 
 if len(sys.argv)==1:
-    file_name="file_name"
-    threshold=100 #180 is midpoint
+    file_name="skl_test.png"
+    threshold=127 #128 is midpoint
     neg=0
 else:
     assert len(sys.argv)==4, "Too many arguments. Arguments are as follows file_name, threshold, negative"
@@ -110,7 +111,7 @@ image_save=1
 image_recon(BW_Image,debug,image_gen,image_save,save_pathbw)
 
 # ===== Conduct Skeletonization ====
-output_states=SCP_Skeletonizer(BW_Image,1,0)
+output_states,rnd =SCP_Skeletonizer(BW_Image,1,0)
 #print(output_states)
 
 # ===== Reconstruct SKL Image =====
@@ -128,5 +129,6 @@ image_recon(output_states,debug,image_gen,image_save,save_pathproc)
 et = time.time()
 elapsed=et-st
 current_time = time.strftime("%H:%M:%S", time.localtime())
+log_maker(file_name,threshold,st,et,elapsed,rnd,neg)
 print(f'End Time: {current_time}')
 print('Execution time:', elapsed, 'seconds')
