@@ -49,6 +49,65 @@ def image_proc(input_path,bg,negative,threshold,debug):
     return holder
 
 if __name__ == "__main__":
-    image_path = f'../Input-images/Pasig_Wordmark.png'  # Replace with your image path
-    print(image_proc(image_path,0,0,50,0))
+    image_path = f'../Input-images/4x5_test.png'  # Replace with your image path
+    # row
+    quadrant=[ [[],[]],   [[],[]]    ]
+    colCoord=[0]
+    rowCoord=[0]
+    rawImgMat=image_proc(image_path,0,0,50,0)
+    
+
+    colFinal=len(rawImgMat[0])-1
+    rowFinal=len(rawImgMat)-1
+    colCoord.append(round((colFinal-1)/2))
+    colCoord.append(round((colFinal-1)/2)+1)
+    colCoord.append(colFinal)
+    
+    rowCoord.append(round((rowFinal-1)/2))
+    rowCoord.append(round((rowFinal-1)/2)+1)
+    rowCoord.append(rowFinal)
+    print(colCoord)
+    print(rowCoord)
+    
+    curquad=[0,0] #r,c
+
+        
+    for i_r in range(0,len(rawImgMat)):
+        lSeg=[]
+        rSeg=[]
+        if i_r>=rowCoord[2]:
+            curquad[0]=1
+        else:
+            curquad[0]=0
+
+        for i_c in range(0,len(rawImgMat[0])):
+            
+            if i_c>=colCoord[2]:
+                curquad[1]=1
+                rSeg.append(f'{i_r}:{i_c}')
+            else:
+                curquad[1]=0
+                lSeg.append(f'{i_r}:{i_c}')
+        print(f'{lSeg}:{rSeg}')
+        quadrant[curquad[0]][0].append(lSeg)
+        quadrant[curquad[0]][1].append(rSeg)
+
+
+        
+    for i_r in range(len(quadrant)):
+        for i_c in range(len(quadrant[i_r][0])):
+            print(f'{quadrant[i_r][0][i_c]}||{quadrant[i_r][1][i_c]}')
+        print("==============")
+            
+#             for i_c in range(len(quadrant[i_r])):
+#                 print(i_r[i_c])
+#             for i_rc in range(len(i_c)):
+#                 print(i_c[i_rc])
+#                 #print(f'{i_c[0][i_rc]}||{i_c[1][i_rc]}')
+ 
+            
+            
+  
+    
+    
 

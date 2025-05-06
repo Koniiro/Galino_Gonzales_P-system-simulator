@@ -1,93 +1,36 @@
-from rule_module import rule_01, rule_02, rule_03, rule_05, rule_06, rule_08, rule_09, rule_10, rule_11, rule_13, rule_14
-from neighbor_gen_module import neighbor_gen
+from skeletonizer_module import SCP_Skeletonizer
 from image_proc_module import image_proc
 from image_recon_module import image_recon
 from log_generator import log_maker
 import time
 import sys
-functions = {
-    "rule_01": rule_01,
-    "rule_02": rule_02,
-    "rule_03": rule_03,
-    "rule_05": rule_05,
-    "rule_06": rule_06,
-    "rule_08": rule_08,
-    "rule_09": rule_09,
-    "rule_10": rule_10,
-    "rule_11": rule_11,
-    "rule_13": rule_13,
-    "rule_14": rule_14
-}
 
 
-
-def SCP_Skeletonizer(nodes,verbose,rule_debug):
-    active=1
-    check=0
-    checksum=0
-    rnd=1
-    # Print Initial Configuration
-    if verbose==1:
-        print("==Initial Configuration==")
-        for x in nodes:
-           print(x)
-                
-
-    while(True):
-        #if verbose==1:
-        print(f'Round {rnd}')
-        
-        for name, func in functions.items():
-            if rule_debug==1:
-                print(f"Executing {name}:")
-            neyb=neighbor_gen(nodes)
-            for i_x in range(len(nodes)):
-               
-                for i_y in range(len(nodes[i_x])):
-                    if name=="rule_11":
-                        nodes[i_x][i_y],check=func(nodes[i_x][i_y],i_x,i_y,neyb[i_x][i_y],active)
-                        checksum+=check
-                        
-                    else:
-                        nodes[i_x][i_y]=func(nodes[i_x][i_y],i_x,i_y,neyb[i_x][i_y],active)
-                if rule_debug==1:
-                    print(nodes[i_x][i_y])
-                    print("---------")
-            
-        if checksum==0:
-            break
-        checksum=0
-        rnd+=1
-    print("=====Finished=====")
-    print(f'Rounds Taken: {rnd}')
-    if verbose==1:
-        print("Final Configuration")
-    final_arr=[]
-    for x in nodes:
-        if verbose==1:
-            print(x)
-        final_arr.append(x)
-    return final_arr, rnd
-
+# Default values
+file_name = "skl_test.png"
+threshold = 127  # Midpoint is 128
+neg = 0
 #===== inputs =====
 # command line input: python 
-if len(sys.argv)==1:
-    file_name="skl_test.png"
-    threshold=127 #128 is midpoint
-    neg=0
-else:
-    assert len(sys.argv)==4, "Too many arguments. Arguments are as follows file_name, threshold, negative"
-    file_name=sys.argv[1]
-    threshold=int(sys.argv[2])
-   
-    neg=int(sys.argv[3])
+if len(sys.argv) > 1:
+    if len(sys.argv) != 4:
+        print("Usage: python script.py <file_name> <threshold> <negative>")
+        sys.exit(1)
+    
+    file_name = sys.argv[1]
+    
+    try:
+        threshold = int(sys.argv[2])
+        neg = int(sys.argv[3])
+    except ValueError:
+        print("Error: threshold and negative must be integers.")
+        sys.exit(1)
 assert threshold>=0 or threshold<=255, "Threshold should be fro mthe range 0-255"
 assert neg==0 or neg==1, "neg should be either 1 or 0"
+
 img_name=file_name.split(".")[0]
 
-
 st=time.time()
-
 current_time = time.strftime("%H:%M:%S", time.localtime())
 print(f'Starting Time: {current_time}')
 

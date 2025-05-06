@@ -1,3 +1,6 @@
+from image_proc_module import image_proc
+from quadrant_gen_module import quadrant_gen
+
 def neighbor_proc(i,j):
     return  [
         (i-1, j-1),  # Upper-left
@@ -31,7 +34,34 @@ def neighbor_gen(nodes):
                         hold.append("pb")
                     elif "pw" in nodes[x][y]:
                         hold.append("pw")
+            #hold.append(f'{i_x},{i_y}')
             row.append(hold)
         temp_holder.append(row)
    
     return temp_holder
+
+    
+if __name__ == "__main__":
+    img_route='4x5_test.png'
+    image_path = f'../Input-images/{img_route}'  # Replace with your image path
+    
+    rawImgMat=image_proc(image_path,0,0,50,0)
+
+    neighbor_nodesRaw=neighbor_gen(rawImgMat)
+
+    neighbor_quad=quadrant_gen(neighbor_nodesRaw,0)
+    
+    quad_arr=quadrant_gen(rawImgMat,0)
+    
+        
+    for i_r in range(len(quad_arr)):
+        for i_c in range(len(quad_arr[i_r][0])):
+            print(f'{quad_arr[i_r][0][i_c]} ||| {quad_arr[i_r][1][i_c]}')
+        print("==============")
+
+
+    for i in quad_arr[1][0]:
+        print(i)
+    for i in neighbor_quad[1][0]:
+        print(i)
+    print(neighbor_quad[1][0])
