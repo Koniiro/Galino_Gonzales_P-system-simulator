@@ -49,7 +49,7 @@ def SCP_Skeletonizer(nodes,verbose,rule_debug):
                     print(nodes[i_x][i_y])
                     print("---------")
             
-        if checksum==0:
+        if checksum==0: # indicates if rule 11 was run
             break
         checksum=0
         rnd+=1
