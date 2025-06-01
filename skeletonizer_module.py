@@ -1,6 +1,7 @@
 from neighbor_gen_module import neighbor_gen
 from image_proc_module import image_proc
 from quadrant_gen_module import quadrant_gen
+from image_recon_module import image_recon
 from joiner_module import joiner
 from rule_module import rule_01, rule_02, rule_03, rule_05, rule_06, rule_08, rule_09, rule_10, rule_11, rule_13, rule_14
 import multiprocessing
@@ -53,13 +54,14 @@ def multi_proc_skeletonization_handler(nodes,verbose,rule_debug):
         neighbor_quad=quadrant_gen(neighbor_nodes,0) # Divide Neighbors into quadrants
         quad_arr=quadrant_gen(node_holder,0) #Divide Nodes into quadrants
         
-        for i in range(0,len(quad_arr),2):
-            for i_r in range(len(quad_arr[i])):
-                print(f'{quad_arr[i][i_r]}||{quad_arr[i+1][i_r]}')
-            print("=========================================")
+        if verbose==1:
+            for i in range(0,len(quad_arr),2):
+                for i_r in range(len(quad_arr[i])):
+                    print(f'{quad_arr[i][i_r]}||{quad_arr[i+1][i_r]}')
+                print("=========================================")
         
-        args_list = [(quad_arr[q],neighbor_quad[q],quadrant[q],1) for q in range(4)]
-        with multiprocessing.Pool(processes=1) as pool:
+        args_list = [(quad_arr[q],neighbor_quad[q],quadrant[q],0) for q in range(4)]
+        with multiprocessing.Pool(processes=4) as pool:
             temp_arr = pool.starmap(mult_proc_skeletonizer, args_list)
         checksum=0
         cleaned_nodes=[]
@@ -71,8 +73,7 @@ def multi_proc_skeletonization_handler(nodes,verbose,rule_debug):
         node_holder=joiner(cleaned_nodes)
         print("Sum:", checksum)
 
-        for i in node_holder:
-            print(i)
+
         if checksum==0:
             break
         checksum=0
@@ -91,7 +92,8 @@ def multi_proc_skeletonization_handler(nodes,verbose,rule_debug):
 def mult_proc_skeletonizer(nodes, neighbors,label,rule_debug):
     active =1
     checksum=0
-    print(label)
+    #print(label)
+    
 
     for name, func in functions.items():
         if rule_debug==1:
@@ -182,21 +184,25 @@ def single_proc_skeletonizer(nodes,debug):
 
 
 if __name__ == "__main__":
-    img_route='4x5_test.png'
+    img_route='Pasig_City_Seal_Logo.png'
     NUM_PROCESSES = 4
   
     image_path = f'../Input-images/{img_route}'  # Replace with your image path
-    rawImgMat=image_proc(image_path,0,0,50,0)
+    rawImgMat=image_proc(image_path,0,0,127,0)
 #     for i in rawImgMat:
 #         print(i)
 #     for i in neighbor_gen(rawImgMat):
 #         print(i)
     
     start_time = time.time()
-    multi_proc_skeletonization_handler(rawImgMat,1,1)
+    output_array,rnd=multi_proc_skeletonization_handler(rawImgMat,0,0)
     end_time = time.time()
     elapsed = end_time - start_time
-    print(f"Finished with {NUM_PROCESSES} processes in {elapsed:.2f} seconds")
+    print(f"Finished with {NUM_PROCESSES} processes in {elapsed:.2f} seconds in {rnd} rounds")
+    debug=0
+    image_gen=1
+    image_save=0
+    image_recon(output_array,debug,image_gen,image_save,'')
     
     
     
