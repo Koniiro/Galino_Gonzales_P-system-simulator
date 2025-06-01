@@ -6,7 +6,7 @@ def joiner(node_array):
     recon_matrix=[]
     for i in range(0,len(node_array),2):
         for i_r in range(len(node_array[i])):
-            dump_1=quad_arr[i][i_r]+quad_arr[i+1][i_r]
+            dump_1=node_array[i][i_r]+node_array[i+1][i_r]
             recon_matrix.append(dump_1)
 
     return recon_matrix
