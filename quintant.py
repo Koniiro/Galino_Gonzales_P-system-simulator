@@ -235,6 +235,8 @@ def rejoin_segments(
                 if y == central_row or x == central_col:
                     result[y][x] = central[y][x]
 
+        return result
+
     if row == "even" and column == "even":
         result = Grid(
             [[[""] for x in range(len(nw[0]) * 2)] for y in range(len(nw) * 2)]
@@ -249,6 +251,145 @@ def rejoin_segments(
                 if y != nw_forbidden_row and x != nw_forbidden_col:
                     result[y][x] = nw[y][x]
 
+        # Add NE to result
+        ne_forbidden_row = len(ne) - 1
+        ne_forbidden_col = len(ne[0]) * -1
+
+        for y in range(len(ne)):
+            for x in range(-1, ne_forbidden_col - 1, -1):
+                if y != ne_forbidden_row and x != ne_forbidden_col:
+                    result[y][x] = ne[y][x]
+
+        # Add SW to result
+        sw_forbidden_row = len(sw) * -1
+        sw_forbidden_col = len(sw[0]) - 1
+
+        for y in range(-1, sw_forbidden_row - 1, -1):
+            for x in range(len(sw[0])):
+                if y != sw_forbidden_row and x != sw_forbidden_col:
+                    result[y][x] = sw[y][x]
+
+        # Add SE to result
+        se_forbidden_row = len(se) * -1
+        se_forbidden_col = len(se[0]) * -1
+
+        for y in range(-1, se_forbidden_row - 1, -1):
+            for x in range(-1, se_forbidden_col - 1, -1):
+                if y != se_forbidden_row and x != se_forbidden_col:
+                    result[y][x] = se[y][x]
+
+        # Add Central to result
+        central_row = [len(central) // 2, len(central) // 2 - 1]
+        central_col = [len(central[0]) // 2, len(central) // 2 - 1]
+
+        for y in range(len(central)):
+            for x in range(len(central[0])):
+                if y in central_row or x in central_col:
+                    result[y][x] = central[y][x]
+
+        return result
+
+    if row == "odd" and column == "even":
+        result = Grid([[[""] for x in range(len(nw[0]) * 2)] for y in range(len(nw) * 2 -1)])
+
+        # Add NW to result
+        nw_forbidden_row = len(nw) - 1
+        nw_forbidden_col = len(nw[0]) - 1
+
+        for y in range(len(nw)):
+            for x in range(len(nw[0])):
+                if y != nw_forbidden_row and x != nw_forbidden_col:
+                    result[y][x] = nw[y][x]
+
+        # Add NE to result
+        ne_forbidden_row = len(ne) - 1
+        ne_forbidden_col = len(ne[0]) * -1
+
+        for y in range(len(ne)):
+            for x in range(-1, ne_forbidden_col - 1, -1):
+                if y != ne_forbidden_row and x != ne_forbidden_col:
+                    result[y][x] = ne[y][x]
+
+        # Add SW to result
+        sw_forbidden_row = len(sw) * -1
+        sw_forbidden_col = len(sw[0]) - 1
+
+        for y in range(-1, sw_forbidden_row - 1, -1):
+            for x in range(len(sw[0])):
+                if y != sw_forbidden_row and x != sw_forbidden_col:
+                    result[y][x] = sw[y][x]
+
+        # Add SE to result
+        se_forbidden_row = len(se) * -1
+        se_forbidden_col = len(se[0]) * -1
+
+        for y in range(-1, se_forbidden_row - 1, -1):
+            for x in range(-1, se_forbidden_col - 1, -1):
+                if y != se_forbidden_row and x != se_forbidden_col:
+                    result[y][x] = se[y][x]
+
+        # Add Central to result
+        central_row = len(central) // 2
+        central_col = [len(central[0]) // 2, len(central) // 2 - 1]
+
+        for y in range(len(central)):
+            for x in range(len(central[0])):
+                if y == central_row or x in central_col:
+                    result[y][x] = central[y][x]
+
+        return result
+    
+    if row == "even" and column == "odd":
+        result = Grid([[[""] for x in range(len(nw[0]) * 2 - 1)] for y in range(len(nw) * 2)])
+
+        # Add NW to result
+        nw_forbidden_row = len(nw) - 1
+        nw_forbidden_col = len(nw[0]) - 1
+
+        for y in range(len(nw)):
+            for x in range(len(nw[0])):
+                if y != nw_forbidden_row and x != nw_forbidden_col:
+                    result[y][x] = nw[y][x]
+
+        # Add NE to result
+        ne_forbidden_row = len(ne) - 1
+        ne_forbidden_col = len(ne[0]) * -1
+
+        for y in range(len(ne)):
+            for x in range(-1, ne_forbidden_col - 1, -1):
+                if y != ne_forbidden_row and x != ne_forbidden_col:
+                    result[y][x] = ne[y][x]
+
+        # Add SW to result
+        sw_forbidden_row = len(sw) * -1
+        sw_forbidden_col = len(sw[0]) - 1
+
+        for y in range(-1, sw_forbidden_row - 1, -1):
+            for x in range(len(sw[0])):
+                if y != sw_forbidden_row and x != sw_forbidden_col:
+                    result[y][x] = sw[y][x]
+
+        # Add SE to result
+        se_forbidden_row = len(se) * -1
+        se_forbidden_col = len(se[0]) * -1
+
+        for y in range(-1, se_forbidden_row - 1, -1):
+            for x in range(-1, se_forbidden_col - 1, -1):
+                if y != se_forbidden_row and x != se_forbidden_col:
+                    result[y][x] = se[y][x]
+
+        # Add Central to result
+        central_row = [len(central) // 2, len(central) // 2 - 1]
+        central_col = len(central[0]) // 2
+
+        for y in range(len(central)):
+            for x in range(len(central[0])):
+                if y in central_row or x == central_col:
+                    result[y][x] = central[y][x]
+
+        return result
+
+    raise RuntimeError("Unreachable code reached")
 
 if __name__ == "__main__":
     pass
