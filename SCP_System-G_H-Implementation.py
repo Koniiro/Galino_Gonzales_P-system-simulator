@@ -7,13 +7,13 @@ import sys
 
 if __name__ == "__main__":
     # Default values
-    file_name = "Pasig_City_Seal_Logo.png"  # Input your image file name
-    threshold = 127  						# Midpoint is 128
+    file_name = "LTEST-0015.png"  # Input your image file name
+    threshold = 115  						# Midpoint is 128
     neg = 0									# 1 if negative b/w 0 otherwise
     multiproc=1 							# 1 if multiprocess 0 otherwise
-    log=0 									# 1 if logs to be made
+    log=1 									# 1 if logs to be made
     
-    img_path = f'../Input-images/{file_name}'  # Replace with your image path
+    img_path = f'../Input-images/medium_image_test/{file_name}'  # Replace with your image path
 
     debug=0
     bg=0 #1: White BG; 0:Black BG
@@ -57,7 +57,7 @@ if __name__ == "__main__":
 
     debug_recon=0
     image_gen=1  #1: Generate an Image; 0 otherwise 
-    image_save=0 #1: Save Image to path; 0 otherwise 
+    image_save=1 #1: Save Image to path; 0 otherwise 
     image_recon(BW_Image,debug,image_gen,image_save,save_pathbw)
 
     # ===== Conduct Skeletonization ====
@@ -78,7 +78,9 @@ if __name__ == "__main__":
             save_pathproc=f'../Output-Images/Ver2/{img_name}-TR{threshold}-SKL-neg.png'
             
     image_recon(output_states,debug_recon,image_gen,image_save,save_pathproc)
-    
+    length=len(output_states)
+    width=len(output_states[0])
+    pixel_count=length*width
     et = time.time()
     elapsed=et-st
     current_time = time.strftime("%H:%M:%S", time.localtime())
@@ -86,4 +88,4 @@ if __name__ == "__main__":
     print('Execution time:', elapsed, 'seconds')
 
     if log==1:
-        log_maker(file_name,threshold,st,et,elapsed,rnd,neg,multiproc)
+        log_maker(file_name,threshold,st,et,elapsed,rnd,neg,multiproc,length,width,pixel_count)
