@@ -3,72 +3,79 @@ from image_proc_module import image_proc
 from image_recon_module import image_recon
 from log_generator import log_maker
 import time
-import sys
+import argparse
+import os
 
 
+parser = argparse.ArgumentParser()
+_ = parser.add_argument("path", help="path of image to skeletonize")
+_ = parser.add_argument(
+    "-t", "--threshold", help="threshold for binarization. must be 0 to 255", type=int
+)
+_ = parser.add_argument(
+    "-n", "--negative", help="skeletonize the inverse of the image", action="store_true"
+)
+args = parser.parse_args()
 
 
+# ===== inputs =====
+if not args.threshold:
+    args.threshold = 127
 
-#===== inputs =====
-# command line input: python 
-if len(sys.argv)==1:
-    file_name="skl_test.png"
-    threshold=127 #128 is midpoint
-    neg=0
-else:
-    assert len(sys.argv)==4, "Too many arguments. Arguments are as follows file_name, threshold, negative"
-    file_name=sys.argv[1]
-    threshold=int(sys.argv[2])
-   
-    neg=int(sys.argv[3])
-assert threshold>=0 or threshold<=255, "Threshold should be fro mthe range 0-255"
-assert neg==0 or neg==1, "neg should be either 1 or 0"
-img_name=file_name.split(".")[0]
+assert 0 <= args.threshold <= 255, "Threshold should be in 0-255"
+
+img_name = os.path.basename(args.path)
 
 
-st=time.time()
+st = time.time()
 
 current_time = time.strftime("%H:%M:%S", time.localtime())
-print(f'Starting Time: {current_time}')
+print(f"Starting Time: {current_time}")
 
 # ===== Choose Input Image =====
-img_path = f'../Input-images/{file_name}'  # Replace with your image path
-debug=0
-bg=0
+debug = 0
+bg = 0
+neg = 1 if args.negative else 0
 
-BW_Image=image_proc(img_path,bg,neg,threshold,debug)
-
+BW_Image = image_proc(args.path, bg, neg, args.threshold, debug)
 
 # ===== Reconstruct BW Image =====
-if neg==0:
-    save_pathbw=f'../Output-Images/Ver2/{img_name}-TR{threshold}-BW.png'
-elif neg==1: #negative image
-    save_pathbw=f'../Output-Images/Ver2/{img_name}-TR{threshold}-BW-neg.png'
+if "output-images" not in os.listdir():
+    os.mkdir("output-images")
+save_pathbw = (
+    f"output-images/{img_name}-TR{args.threshold}-BW.png"
+    if neg == 0
+    else f"output-images/{img_name}-TR{args.threshold}-BW-neg.png"
+)
 
-debug=0
-image_gen=1
-image_save=0
-image_recon(BW_Image,debug,image_gen,image_save,save_pathbw)
+debug = 0
+image_gen = 1
+image_save = 0
+image_recon(BW_Image, debug, image_gen, image_save, save_pathbw)
 
 # ===== Conduct Skeletonization ====
-output_states,rnd =SCP_Skeletonizer(BW_Image,1,0)
-#print(output_states)
+output_states, rnd = SCP_Skeletonizer(BW_Image, 1, 0)
+# print(output_states)
 
 # ===== Reconstruct SKL Image =====
-if neg==0:
-    save_pathproc=f'../Output-Images/Ver2/{img_name}-TR{threshold}-SKL.png'
-elif neg==1: #negative image
-    save_pathproc=f'../Output-Images/Ver2/{img_name}-TR{threshold}-SKL-neg.png'
+save_pathproc = (
+    f"output-images/{img_name}-TR{args.threshold}-SKL.png"
+    if neg == 0
+    else f"output-images/{img_name}-TR{args.threshold}-SKL-neg.png"
+)
 
+debug = 0
+image_gen = 1
+image_save = 1
 
-debug=0
-image_gen=1
-image_save=1
-
-image_recon(output_states,debug,image_gen,image_save,save_pathproc)
+image_recon(output_states, debug, image_gen, image_save, save_pathproc)
 et = time.time()
-elapsed=et-st
+elapsed = et - st
 current_time = time.strftime("%H:%M:%S", time.localtime())
-log_maker(file_name,threshold,st,et,elapsed,rnd,neg)
-print(f'End Time: {current_time}')
-print('Execution time:', elapsed, 'seconds')
+
+if "Log_Files" not in os.listdir(".."):
+    os.mkdir("../Log_Files")
+
+log_maker(args.path, args.threshold, st, et, elapsed, rnd, neg)
+print(f"End Time: {current_time}")
+print("Execution time:", elapsed, "seconds")
