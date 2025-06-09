@@ -36,6 +36,17 @@ python SCP_System-G_H-Implementation.py <path> -t <threshold> <-n>
 - `-n` - Add this flag if the inverse of the image will be skeletonized. Optional.
 
 ## How to setup experiments
+- Test Case 3
+Get the image at https://drive.google.com/file/d/1FI0KbZYQwI6UBn-FpoeVZPv64TipWNzX/view?usp=sharing.
+You can run the skeletonization using the following command.
+```python
+python SCP_System-G_H-Implementation.py <path to image> -t 100 # for normal
+python SCP_System-G_H-Implementation.py <path to image> -t 100 -n # for inversed
+```
+
+## Multiprocessed Version
+The multiprocess version of the project can be found at the `multiProc4Segment` branch
+of the repository.
 
 ## Authors
 
