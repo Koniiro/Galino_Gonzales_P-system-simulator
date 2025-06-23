@@ -1,6 +1,6 @@
 from PIL import Image
 import numpy as np
-
+import time
 
 def image_proc(input_path, bg, negative, threshold, debug):
     r_image = Image.open(input_path).convert("RGBA")  # Convert to rgba array
@@ -25,23 +25,50 @@ def image_proc(input_path, bg, negative, threshold, debug):
     if debug == 1:
         print("Binary NP Array")
         print(binary_array)
-
-    holder = []
-    for i_x in binary_array:
-        temp = []
-        for i_y in i_x:
-            temp_y = []
-            if i_y == 0:
-                temp_y.append("pb")
-            else:
-                temp_y.append("pw")
-            temp_y.append("s0")
-            temp.append(temp_y)
-        holder.append(temp)
-
+        print(binary_array.shape)
+    
+    #Numpy Section
+#     st = time.time()  # Start Timer
+#     current_time = time.strftime("%H:%M:%S", time.localtime())
+#     print(f"Starting Time: {current_time}")
+    
+    #temp = np.array(binary_array).astype(int)
+    binary_hold=np.array([["pb","s0"],["pw","s0"]])
+    holder = binary_hold[binary_array]
+    
+#     et = time.time()
+#     elapsed = et - st
+#     current_time = time.strftime("%H:%M:%S", time.localtime())
+#     print(f"End Time: {current_time}")
+#     print("Execution time:", elapsed, "seconds")
+    
+    #Iterative Version
+#     st1 = time.time()  # Start Timer
+#     current_time = time.strftime("%H:%M:%S", time.localtime())
+#     print(f"Starting Time: {current_time}")
+#     hold1=[]
+#     for i_x in binary_array:
+#         temp = []
+#         for i_y in i_x:
+#             temp_y = []
+#             if i_y == 0:
+#                 temp_y.append("pb")
+#             else:
+#                 temp_y.append("pw")
+#             temp_y.append("s0")
+#             temp.append(temp_y)
+#         hold1.append(temp)
+#     et1 = time.time()
+#     elapsed = et1 - st1
+#     current_time = time.strftime("%H:%M:%S", time.localtime())
+#     print(f"End Time: {current_time}")
+#     print("Execution time:", elapsed, "seconds")
+#     
     if debug == 1:
         print("SCP System Compatible")
         print(holder)
+        print(len(holder[0][0]))
+        print(len(hold1[0][0]))
 
     return holder
 
@@ -52,48 +79,53 @@ if __name__ == "__main__":
     quadrant = [[[], []], [[], []]]
     colCoord = [0]
     rowCoord = [0]
+
     rawImgMat = image_proc(image_path, 0, 0, 50, 0)
+    print("=========Output=========")
+    print(f'Shape:{rawImgMat.shape}')
+    print(rawImgMat)
 
-    colFinal = len(rawImgMat[0]) - 1
-    rowFinal = len(rawImgMat) - 1
-    colCoord.append(round((colFinal - 1) / 2))
-    colCoord.append(round((colFinal - 1) / 2) + 1)
-    colCoord.append(colFinal)
 
-    rowCoord.append(round((rowFinal - 1) / 2))
-    rowCoord.append(round((rowFinal - 1) / 2) + 1)
-    rowCoord.append(rowFinal)
-    print(colCoord)
-    print(rowCoord)
+# 
+#     colFinal = len(rawImgMat[0]) - 1
+#     rowFinal = len(rawImgMat) - 1
+#     colCoord.append(round((colFinal - 1) / 2))
+#     colCoord.append(round((colFinal - 1) / 2) + 1)
+#     colCoord.append(colFinal)
+# 
+#     rowCoord.append(round((rowFinal - 1) / 2))
+#     rowCoord.append(round((rowFinal - 1) / 2) + 1)
+#     rowCoord.append(rowFinal)
+#     print(colCoord)
+#     print(rowCoord)
+# 
+#     curquad = [0, 0]  # r,c
+# 
+#     for i_r in range(0, len(rawImgMat)):
+#         lSeg = []
+#         rSeg = []
+#         if i_r >= rowCoord[2]:
+#             curquad[0] = 1
+#         else:
+#             curquad[0] = 0
+# 
+#         for i_c in range(0, len(rawImgMat[0])):
+#             if i_c >= colCoord[2]:
+#                 curquad[1] = 1
+#                 rSeg.append(f"{i_r}:{i_c}")
+#             else:
+#                 curquad[1] = 0
+#                 lSeg.append(f"{i_r}:{i_c}")
+#         print(f"{lSeg}:{rSeg}")
+#         quadrant[curquad[0]][0].append(lSeg)
+#         quadrant[curquad[0]][1].append(rSeg)
+# 
+#     for i_r in range(len(quadrant)):
+#         for i_c in range(len(quadrant[i_r][0])):
+#             print(f"{quadrant[i_r][0][i_c]}||{quadrant[i_r][1][i_c]}")
+#         print("==============")
+#         
+#     for i_r in range(len(rawImgMat)):
+#         print(rawImgMat[i_r])
+#         print("==============")
 
-    curquad = [0, 0]  # r,c
-
-    for i_r in range(0, len(rawImgMat)):
-        lSeg = []
-        rSeg = []
-        if i_r >= rowCoord[2]:
-            curquad[0] = 1
-        else:
-            curquad[0] = 0
-
-        for i_c in range(0, len(rawImgMat[0])):
-            if i_c >= colCoord[2]:
-                curquad[1] = 1
-                rSeg.append(f"{i_r}:{i_c}")
-            else:
-                curquad[1] = 0
-                lSeg.append(f"{i_r}:{i_c}")
-        print(f"{lSeg}:{rSeg}")
-        quadrant[curquad[0]][0].append(lSeg)
-        quadrant[curquad[0]][1].append(rSeg)
-
-    for i_r in range(len(quadrant)):
-        for i_c in range(len(quadrant[i_r][0])):
-            print(f"{quadrant[i_r][0][i_c]}||{quadrant[i_r][1][i_c]}")
-        print("==============")
-
-#             for i_c in range(len(quadrant[i_r])):
-#                 print(i_r[i_c])
-#             for i_rc in range(len(i_c)):
-#                 print(i_c[i_rc])
-#                 #print(f'{i_c[0][i_rc]}||{i_c[1][i_rc]}')
