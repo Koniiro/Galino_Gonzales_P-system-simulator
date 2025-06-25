@@ -33,7 +33,7 @@ def image_proc(input_path, bg, negative, threshold, debug):
 #     print(f"Starting Time: {current_time}")
     
     #temp = np.array(binary_array).astype(int)
-    binary_hold=np.array([["pb","s0"],["pw","s0"]])
+    binary_hold=np.array([["pb","s0"],["pw","s0"]],dtype='object')
     holder = binary_hold[binary_array]
     
 #     et = time.time()
