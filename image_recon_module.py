@@ -5,24 +5,24 @@ from image_proc_module import image_proc
 
 
 def image_recon(input_array, debug, image_gen, image_save, save_path):
-    holder = []
-    for i_x in input_array:
-        temp = []
-        for i_y in i_x:
-            if "pw" in i_y:
-                temp.append(1)
-            elif "pb" in i_y:
-                temp.append(0)
 
-        holder.append(temp)
-    binary_array = np.array(holder, dtype=np.uint8)
+ 
+    print(input_array)
+    matches = input_array == "pb"      # shape: (5, 4, 2)
+    result = np.any(matches, axis=2)
+    binary_array=np.where(result==False,1,0)
+    binary_array = binary_array.astype(np.uint8)
+    
     if debug == 1:
         print("Binary NP Array")
+        print(f'Shape: {binary_array.shape}')
+        print(binary_array.dtype)
         print(binary_array)
     if image_gen == 1:
         # # Convert 0s (black) and 1s (white) into 255 grayscale values
         image_array = binary_array * 255  # 0 -> 0 (black), 1 -> 255 (white)
         if debug == 1:
+            print("Image Array")
             print(image_array)
 
         # # Create and save the image
@@ -168,6 +168,7 @@ if __name__ == "__main__":
     # print(image_array)
     debug = 0
     image_array = image_proc(image_path, 0, 1, 127, debug)
+
     image_gen = 1
     image_save = 0
-    image_recon(image_array, debug, image_gen, image_save, save_path)
+    image_recon(image_array, 1, image_gen, image_save, save_path)
