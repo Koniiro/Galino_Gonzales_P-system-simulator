@@ -4,28 +4,6 @@ import numpy as np
 from numpy.lib.stride_tricks import sliding_window_view
 import time
 
-def neighbor_proc(i, j):
-    i= np.array([
-        i - 1,  # Upper-left
-        i - 1,  # Up
-        i - 1,  # Upper-right
-        i,  # Right
-        i + 1,  # Bottom-right
-        i + 1,  # Down
-        i + 1,  # Bottom-left
-        i,  # Left
-    ])
-    j=np.array([
-         j - 1,  # Upper-left
-         j,  # Up
-         j + 1,  # Upper-right
-         j + 1,  # Right
-         j + 1,  # Bottom-right
-         j,  # Down
-         j - 1,  # Bottom-left
-         j - 1,  # Left
-    ])
-    return i,j
 
 def neighbor_parse(windows,x,y):
     target=windows[x][y]
@@ -34,10 +12,13 @@ def neighbor_parse(windows,x,y):
     return neighbor_array
 
 def neighbor_gen(nodes):
-   
+    
     flat_nodes = np.ravel(nodes)
     filtered = flat_nodes[np.isin(flat_nodes, ['pw', 'pb'])]
-    node_test = filtered.reshape(len(rawImgMat), len(rawImgMat[0]))
+    
+    rows, cols,underhood = nodes.shape
+
+    node_test = filtered.reshape(rows, cols)
   
     padded = np.pad(node_test, pad_width=1, mode='constant', constant_values='pw')
     neighbor_windows = sliding_window_view(padded, (3, 3))
@@ -58,11 +39,12 @@ if __name__ == "__main__":
     print("Beginning Neighbor Gen")
     windowed_nodes=neighbor_gen(rawImgMat)
 
+    
 
-
-    print(neighbor_parse(windowed_nodes,0,0))
+    print(neighbor_parse(windowed_nodes,2,2))
     # End timer
     end_time = time.time()
+
     
     # Calculate and print elapsed time
     elapsed = end_time - start_time
