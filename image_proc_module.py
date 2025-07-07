@@ -1,6 +1,5 @@
 from PIL import Image
 import numpy as np
-import time
 
 def image_proc(input_path, bg, negative, threshold, debug):
     if debug==1:
