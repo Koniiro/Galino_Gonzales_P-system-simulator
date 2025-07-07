@@ -3,84 +3,57 @@ import numpy as np
 import time
 
 def image_proc(input_path, bg, negative, threshold, debug):
+    if debug==1:
+        print("(1/5) Opening Image")
     r_image = Image.open(input_path).convert("RGBA")  # Convert to rgba array
+
     # preprocess to convert any transparent bg to white
+    if debug==1:
+        print("(2/5) Creating BG")
     if bg == 0:  # white background
         mid_image = Image.new("RGB", r_image.size, (255, 255, 255))
     elif bg == 1:  # black background
         mid_image = Image.new("RGB", r_image.size, (0, 0, 0))
     mid_image.paste(r_image, mask=r_image.split()[3])
-
+    
+    if debug==1:
+        print("(3/5) Converting to BW")
     bw_image = mid_image.convert("L")
+    if debug==1:
+        print("(4/5) Thresholding")
     binary_array = (
         np.array(bw_image) > threshold
     )  # transparent = white, major lines should be black
 
     # True = white, transparent ; False = Black
+    if debug==1:
+        print("(5/5) Binarizing")
     if negative == 0:  # normal view
         binary_array = np.array(binary_array.astype(int), dtype=np.uint8)
     elif negative == 1:  # negative
         binary_array = np.array(binary_array.astype(int), dtype=np.uint8) ^ 1
 
     if debug == 1:
-        print("Binary NP Array")
+        print("Binary NP Array Information")
         print(binary_array)
         print(binary_array.shape)
     
-    #Numpy Section
-#     st = time.time()  # Start Timer
-#     current_time = time.strftime("%H:%M:%S", time.localtime())
-#     print(f"Starting Time: {current_time}")
-    
-    #temp = np.array(binary_array).astype(int)
-    binary_hold=np.array([["pb","s0"],["pw","s0"]],dtype='object')
-    holder = binary_hold[binary_array]
-    
-#     et = time.time()
-#     elapsed = et - st
-#     current_time = time.strftime("%H:%M:%S", time.localtime())
-#     print(f"End Time: {current_time}")
-#     print("Execution time:", elapsed, "seconds")
-    
-    #Iterative Version
-#     st1 = time.time()  # Start Timer
-#     current_time = time.strftime("%H:%M:%S", time.localtime())
-#     print(f"Starting Time: {current_time}")
-#     hold1=[]
-#     for i_x in binary_array:
-#         temp = []
-#         for i_y in i_x:
-#             temp_y = []
-#             if i_y == 0:
-#                 temp_y.append("pb")
-#             else:
-#                 temp_y.append("pw")
-#             temp_y.append("s0")
-#             temp.append(temp_y)
-#         hold1.append(temp)
-#     et1 = time.time()
-#     elapsed = et1 - st1
-#     current_time = time.strftime("%H:%M:%S", time.localtime())
-#     print(f"End Time: {current_time}")
-#     print("Execution time:", elapsed, "seconds")
-#     
-    if debug == 1:
-        print("SCP System Compatible")
-        print(holder)
-        print(len(holder[0][0]))
-        print(len(hold1[0][0]))
+
+    binary_hold=np.array([["pb","s0"],["pw","s0"]])
+    holder = np.array(binary_hold[binary_array])
+
 
     return holder
 
 
 if __name__ == "__main__":
-    image_path = f"../Input-images/4x5_test.png"  # Replace with your image path
+    image_path = "../Input-images/4x5_test.png"  # Replace with your image path
     # row
-    quadrant = [[[], []], [[], []]]
-    colCoord = [0]
-    rowCoord = [0]
+    #quadrant = [[[], []], [[], []]]
+    #colCoord = [0]
+    #rowCoord = [0]
 
-    rawImgMat = image_proc(image_path, 0, 0, 50, 0)
+    rawImgMat = image_proc(image_path, 0, 0, 50, 1)
     print("=========Output=========")
     print(f'Shape:{rawImgMat.shape}')
     print(rawImgMat)
