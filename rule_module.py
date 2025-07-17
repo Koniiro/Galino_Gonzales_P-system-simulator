@@ -1,6 +1,6 @@
 # obj_list, x, y, neigh" need active
 import re
-
+import numpy as np
 trident = [
     6,
     12,
@@ -109,24 +109,20 @@ trident = [
 ]
 
 
-def rule_01(obj_list, i, h, neigh, active):
-    if "s0" in obj_list and "pw" in obj_list:
-        return list(map(lambda x: "s1" if x == "s0" else x, obj_list))
-    else:
-        return obj_list
+def rule_01(nodes, i, h, neigh, active):
+    mask = (nodes[..., 0] == 'pw') & (nodes[..., 1] == 's0')
+    nodes[mask, 1] = 's1'
+    return nodes
 
 
-def rule_02(obj_list, i, h, neigh, active):
-    y = "s0"
-    temp_list = []
-    if y in obj_list:
-        temp_list = list(map(lambda x: "s11" if x == y else x, obj_list))
-        ij = i + h
-        temp_list.append(f"h{ij}")
-        return temp_list
-    else:
-        return obj_list
-
+def rule_02(nodes, i, h, neigh, active):
+    mask = (nodes[..., 1] == 's0')
+    nodes[mask, 1] = 's11'
+    coords = np.argwhere(mask)
+    for i, j in coords:
+        
+        nodes[i, j, 2] = f"h{i+j}"
+    return nodes
 
 def rule_03(obj_list, i, h, neigh, active):
     y = "s1"
