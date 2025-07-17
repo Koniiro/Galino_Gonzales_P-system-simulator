@@ -13,14 +13,15 @@ def neighbor_parse(windows,x,y):
 
 def neighbor_gen(nodes):
     
-    flat_nodes = np.ravel(nodes)
-    filtered = flat_nodes[np.isin(flat_nodes, ['pw', 'pb'])]
+    
+    flat_nodes = np.ravel(nodes) # Flatten matrix to 1D Array
+    filtered = flat_nodes[np.isin(flat_nodes, ['pw', 'pb'])] #Filter out all elements that arent 'pw' or 'pb'
     
     rows, cols,underhood = nodes.shape
 
-    node_test = filtered.reshape(rows, cols)
+    node_test = filtered.reshape(rows, cols) 
   
-    padded = np.pad(node_test, pad_width=1, mode='constant', constant_values='pw')
+    padded = np.pad(node_test, pad_width=1, mode='constant', constant_values='pw') #pad borders with 'pw'
     neighbor_windows = sliding_window_view(padded, (3, 3))
           
    

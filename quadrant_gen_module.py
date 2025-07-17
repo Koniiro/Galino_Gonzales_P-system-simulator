@@ -30,14 +30,14 @@ def row_print(quad):
             print(i , end=",")
         print("")
 def quadrant_print(quad):
+    print("Quadrant Diagram")
     for i in range(0, len(quad), 2):
-        for i_r in range(len(quad_arr[i])):
-            print(f"{quad_arr[i][i_r].tolist()} || {quad_arr[i + 1][i_r].tolist()}")
+        for i_r in range(len(quad[i])):
+            print(f"{quad[i][i_r].tolist()} || {quad[i + 1][i_r].tolist()}")
         print("=========================================")
 if __name__ == "__main__":
-    img_route = "4x5_test.png"
-    #image_path = f"../Input-images/{img_route}"  # Replace with your image path
-    #image_path = f"../Input-images/large_image_test/LTEST-0006.png"
+    img_route = "irl_test/irl_test-01.jpg"
+    image_path = f"../Input-images/{img_route}"  # Replace with your image path
     debug=0
 
     rawImgMat = image_proc(image_path, 0, 0, 50, 0)
