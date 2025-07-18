@@ -188,40 +188,81 @@ def rule_10(nodes, i, h, neigh, active):
     
     return nodes
 
+def rule_11_checker(n_matrix):
+    
+    powers= np.array([1,2,4,8,16,32,64,128,256])
+    #print(n_matrix[:, 1, 1])
+    flat = np.stack([
+        n_matrix[:, 1, 1],  # center
+        n_matrix[:, 0, 0],  # top-left
+        n_matrix[:, 0, 1],  # top-center
+        n_matrix[:, 0, 2],  # top-right
+        n_matrix[:, 1, 2],  # right
+        n_matrix[:, 2, 2],  # bottom-right
+        n_matrix[:, 2, 1],  # bottom-center
+        n_matrix[:, 2, 0],  # bottom-left
+        n_matrix[:, 1, 0],  # left
+    ], axis=1)  # Shape: (N, 9)
 
-def rule_11(obj_list, i, h, neigh, active):
-    y = "s14"
-    tride = 0
-    temp_list = []
-    for x in range(9):
-        if neigh[x] == "pw":
-            tride += 2**x
+    # Mask where 'pw' appears
+    mask = (flat == 'pw') 
+    weighted = mask * powers  # shape: (N, 9)
+    values = weighted.sum(axis=1)
 
-    if y in obj_list and tride in trident and "pb" in obj_list:
-        temp_list = list(map(lambda x: "s2" if x == y else x, obj_list))
-        ind = temp_list.index("pb")
-        temp_list.pop(ind)
-        temp_list.append("pw")
-        return temp_list, 1
-    else:
-        return obj_list, 0
+    vals = np.isin(values, list(trident))
+    return vals
+
+def rule_11(nodes, i, h, neigh, active):
+    mask = (nodes[..., 1] == 's14') & (nodes[..., 0] == 'pb') 
+   
+
+    trident_mask=rule_11_checker(neigh[mask])
+    check=trident_mask.sum()
+    ind1=np.argwhere(mask)
+ 
+    nodes[ind1[trident_mask, 0], ind1[trident_mask, 1],0]='pw'
+    nodes[ind1[trident_mask, 0], ind1[trident_mask, 1],1]='s2'
+ 
+    
+#     mask_indices = np.where(mask)
+#     selected_indices = mask_indices[trident_chk]
+#     nodes[selected_indices, 0] = 'pw'
+#     nodes[selected_indices, 1] = 's2'
+    #nodes[mask][trident_chk,0]='pw'
+    #nodes[mask,0][trident_chk]='pw'
+
+    return nodes ,check
+    
+#     y = "s14"
+#     tride = 0
+#     temp_list = []
+#     for x in range(9):
+#         if neigh[x] == "pw":
+#             tride += 2**x
+# 
+#     if y in obj_list and tride in trident and "pb" in obj_list:
+#         temp_list = list(map(lambda x: "s2" if x == y else x, obj_list))
+#         ind = temp_list.index("pb")
+#         temp_list.pop(ind)
+#         temp_list.append("pw")
+#         return temp_list, 1
+#     else:
+#         return obj_list, 0
 
 
 # def rule_12(obj_list, i, h, neigh, active):
 #    pass
 
 
-def rule_13(obj_list, i, h, neigh, active):
-    y = "s14"
-    if y in obj_list:
-        return list(map(lambda x: "s12" if x == y else x, obj_list))
-    else:
-        return obj_list
+def rule_13(nodes, i, h, neigh, active):
+    mask = (nodes[..., 1] == 's14') 
+    nodes[mask, 1] = 's12'
+    
+    return nodes
 
 
-def rule_14(obj_list, i, h, neigh, active):
-    y = "s34"
-    if y in obj_list:
-        return list(map(lambda x: "s12" if x == y else x, obj_list))
-    else:
-        return obj_list
+def rule_14(nodes, i, h, neigh, active):
+    mask = (nodes[..., 1] == 's34') 
+    nodes[mask, 1] = 's12'
+    
+    return nodes
