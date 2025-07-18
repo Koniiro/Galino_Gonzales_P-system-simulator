@@ -223,31 +223,10 @@ def rule_11(nodes, i, h, neigh, active):
     nodes[ind1[trident_mask, 0], ind1[trident_mask, 1],0]='pw'
     nodes[ind1[trident_mask, 0], ind1[trident_mask, 1],1]='s2'
  
-    
-#     mask_indices = np.where(mask)
-#     selected_indices = mask_indices[trident_chk]
-#     nodes[selected_indices, 0] = 'pw'
-#     nodes[selected_indices, 1] = 's2'
-    #nodes[mask][trident_chk,0]='pw'
-    #nodes[mask,0][trident_chk]='pw'
+
 
     return nodes ,check
     
-#     y = "s14"
-#     tride = 0
-#     temp_list = []
-#     for x in range(9):
-#         if neigh[x] == "pw":
-#             tride += 2**x
-# 
-#     if y in obj_list and tride in trident and "pb" in obj_list:
-#         temp_list = list(map(lambda x: "s2" if x == y else x, obj_list))
-#         ind = temp_list.index("pb")
-#         temp_list.pop(ind)
-#         temp_list.append("pw")
-#         return temp_list, 1
-#     else:
-#         return obj_list, 0
 
 
 # def rule_12(obj_list, i, h, neigh, active):
