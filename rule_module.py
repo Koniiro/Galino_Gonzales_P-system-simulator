@@ -148,65 +148,45 @@ def rule_05(nodes, i, h, neigh, active):
     return nodes
 
 
-def rule_06(obj_list, i, h, neigh, active):
-    y = "s11"
-    if y in obj_list:
-        return list(map(lambda x: "s12" if x == y else x, obj_list))
-    else:
-        return obj_list
+def rule_06(nodes, i, h, neigh, active):
+    mask = (nodes[..., 1] == 's11') 
+    nodes[mask, 1] = 's12'
+    return nodes
 
 
 # def rule_07(obj_list, i, h, neigh, active, active, active):
 #     pass
 
 
-def rule_08(obj_list, i, h, neigh, active):
-    y = "s12"
-    h_holder = ""
-    h_ind = 0
-    temp_list = []
-    pattern = r"^h\d+$"  # Matches "h" followed by one or more digits
-    h_exists = any(re.match(pattern, item) for item in obj_list)
+def rule_08(nodes, i, h, neigh, active):
+    mask = (nodes[..., 1] == 's12') 
+    nodes[mask, 1] = 's13'
+    
+    val=np.char.lstrip(nodes[mask, 2].astype(str), 'h').astype(int)
 
-    if h_exists and y in obj_list:
-        temp_list = list(map(lambda x: "s13" if x == y else x, obj_list))
-        for i in range(len(obj_list)):
-            if "h" in obj_list[i]:
-                h_holder = obj_list[i]
-                h_ind = i
-                break
-        val = int(h_holder[1:])
-        temp_list.pop(h_ind)
-        if val == 0:
-            temp_list.append(f"h{1}")
-        else:
-            temp_list.append(f"h{0}")
-        return temp_list
-    else:
-        return obj_list
+    res= np.where(val==0,1,0)
+
+    res=np.char.add("h",res.astype(str))
+    nodes[mask, 2]=res
+    
+    return nodes
+    
 
 
-def rule_09(obj_list, i, h, neigh, active):
-    y = "s13"
-    h_ind = 0
-    val = 0
-    for i in obj_list:
-        if "h" in i:
-            val = int(i[1:])
-            break
+def rule_09(nodes, i, h, neigh, active):
+    h_active=f'h{active}'
+    mask = (nodes[..., 1] == 's13') & (nodes[..., 2] == h_active)
+    nodes[mask,1]='s14'
 
-    if y in obj_list and val == active:
-        return list(map(lambda x: "s14" if x == y else x, obj_list))
-    else:
-        return obj_list
+    return nodes
 
 
-def rule_10(obj_list, i, h, neigh, active):
-    y = "s13"
-    if y in obj_list:
-        return list(map(lambda x: "s34" if x == y else x, obj_list))
-    else:
-        return obj_list
+
+def rule_10(nodes, i, h, neigh, active):
+    mask = (nodes[..., 1] == 's13') 
+    nodes[mask, 1] = 's34'
+    
+    return nodes
 
 
 def rule_11(obj_list, i, h, neigh, active):
