@@ -120,48 +120,32 @@ def rule_02(nodes, i, h, neigh, active):
     nodes[mask, 1] = 's11'
     coords = np.argwhere(mask)
     for i, j in coords:
-        
         nodes[i, j, 2] = f"h{i+j}"
     return nodes
 
-def rule_03(obj_list, i, h, neigh, active):
-    y = "s1"
-    if y in obj_list:
-        # letter, number = re.match(r"([a-zA-Z]+)(\d+)", s)
-        return list(map(lambda x: "s2" if x == y else x, obj_list))
-    else:
-        return obj_list
+def rule_03(nodes, i, h, neigh, active):
+    mask = (nodes[..., 1] == 's1') 
+    nodes[mask, 1] = 's2'
+    return nodes
 
 
-# no need to implement rule 03 as it simply replies s2 with s2 again
+# no need to implement rule 04 as it simply replies s2 with s2 again
 # def rule_04(obj_list, i, h, neigh, active):
 #     y="s2"
 #     if y in obj_list:
 #         return list(map(lambda x: "s2" if x == y else x, obj_list))
 
 
-def rule_05(obj_list, i, h, neigh, active):
-    y = "h"
-    h_holder = ""
-    h_ind = 0
-    pattern = r"^h\d+$"  # Matches "h" followed by one or more digits
-    h_exists = any(re.match(pattern, item) for item in obj_list)
+def rule_05(nodes, i, h, neigh, active):
+    mask = (nodes[..., 1] == 's11') 
+    w=nodes[mask, 2]
 
-    if h_exists and "s11" in obj_list:
-        # return list(map(lambda x: "s2" if x == y else x, obj_list))
-        for i in range(len(obj_list)):
-            if "h" in obj_list[i]:
-                h_holder = obj_list[i]
-                h_ind = i
-                break
-        val = int(h_holder[1:])
-        while val > 1:
-            val -= 2
-        obj_list.pop(h_ind)
-        obj_list.append(f"h{val}")
-        return obj_list
-    else:
-        return obj_list
+    val=np.char.lstrip(nodes[mask, 2].astype(str), 'h').astype(int) % 2
+    res=np.char.add("h",val.astype(str))
+ 
+    nodes[mask, 2]=res
+ 
+    return nodes
 
 
 def rule_06(obj_list, i, h, neigh, active):
