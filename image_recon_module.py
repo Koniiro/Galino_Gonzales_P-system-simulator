@@ -5,8 +5,6 @@ from image_proc_module import image_proc
 
 
 def image_recon(input_array, debug, image_gen, image_save, save_path):
-
-    print("Reconstructing Image")
     matches = input_array == "pb"      # shape: (5, 4, 2)
     result = np.any(matches, axis=2)
     binary_array=np.where(result==False,1,0)
