@@ -38,7 +38,7 @@ def image_proc(input_path, bg, negative, threshold, debug):
         print(binary_array.shape)
     
 
-    binary_hold=np.array([["pb","s0","hx"],["pw","s0","hx"]] )
+    binary_hold=np.array([["pb","s0","hx"],["pw","s0","hx"]], dtype=object )
     holder = np.array(binary_hold[binary_array], )
 
 
