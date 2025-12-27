@@ -34,8 +34,7 @@ functions = {
 }
 
 
-def multi_proc_skeletonization_handler(nodes, verbose, rule_debug):
-    print("Initializing Multiprocessed Skeletonization")
+def multi_proc_skeletonization_handler(nodes, round_debug,input_symbol_debug,output_symbol_debug, verbose):
     check = 0
     checksum = 0
     rnd = 1
@@ -45,13 +44,14 @@ def multi_proc_skeletonization_handler(nodes, verbose, rule_debug):
     quadrant = ["Q1", "Q2", "Q3", "Q4"]
 
     # Print Initial Configuration
-    if verbose == 1:
+    if input_symbol_debug == 1:
         print("==Initial Configuration==")
         for x in nodes:
             print(x)
 
     while True:
-        print(f"Round {rnd}")  # Print Round Number
+        if round_debug==1:
+            print(f"Round {rnd}")  # Print Round Number
         neighbor_nodes = neighbor_gen(node_holder)  # Generate Neighbor Arrays
         neighbor_quad = quadrant_gen(
             neighbor_nodes, 0
@@ -69,13 +69,11 @@ def multi_proc_skeletonization_handler(nodes, verbose, rule_debug):
             temp_arr = pool.starmap(mult_proc_skeletonizer, args_list)
         checksum = 0
         cleaned_nodes = []
-        print(len(temp_arr[0]))
         for i in temp_arr:
             cleaned_nodes.append(i[0])
             checksum += i[1]
 
         node_holder = joiner(cleaned_nodes)
-        print("Sum:", checksum)
 
         if checksum == 0:
             break
@@ -84,10 +82,10 @@ def multi_proc_skeletonization_handler(nodes, verbose, rule_debug):
 
     print("=====Finished=====")
     print(f"Rounds Taken: {rnd}")
-    if verbose == 1:
+    if output_symbol_debug == 1:
         print("Final Configuration")
     for x in node_holder:
-        if verbose == 1:
+        if output_symbol_debug == 1:
             print(x)
         final_arr.append(x)
     return final_arr, rnd
