@@ -1,10 +1,11 @@
+import os
 import csv
 import time
 from datetime import datetime
 
 
 if __name__ == "__main__":
-    file_path = f"../Log_Files/run_log.csv"
+    file_path = f"../Log_Files/run_log2.csv"
     # Writing to CSV
 
     new_data = [
@@ -40,32 +41,31 @@ if __name__ == "__main__":
 
 def log_maker(
     filename,
+    w,
+    h,
     threshold,
     time_start,
     time_end,
     time_elapsed,
     rounds,
     negative,
-    mulproc,
-    length,
-    width,
-    pixel_area,
 ):
     file_path = f"../Log_Files/run_log.csv"
+    file_exists = os.path.isfile(file_path)
+
     new_data = [
         {
             "Time": datetime.now(),
             "Filename": filename,
+            "Width":w,
+            "Height":h,
+            "Pixel_Area":w*h,
             "Threshold": threshold,
+            "Negative": negative,
             "Time_start": time_start,
             "Time_end": time_end,
             "Time_Elapsed": time_elapsed,
             "Rounds": rounds,
-            "Negative": negative,
-            "Multiprocess": mulproc,
-            "Length": length,
-            "Width": width,
-            "Pixel_area": pixel_area,
         },
     ]
     with open(file_path, mode="a", newline="") as file:
@@ -74,16 +74,17 @@ def log_maker(
             fieldnames=[
                 "Time",
                 "Filename",
+                "Width",
+                "Height",
+                "Pixel_Area",
                 "Threshold",
+                "Negative",
                 "Time_start",
                 "Time_end",
                 "Time_Elapsed",
                 "Rounds",
-                "Negative",
-                "Multiprocess",
-                "Length",
-                "Width",
-                "Pixel_area",
             ],
         )
+        if not file_exists:
+            writer.writeheader()
         writer.writerows(new_data)
