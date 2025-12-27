@@ -58,7 +58,7 @@ if __name__ == "__main__":
     
     st = time.time()  # Start Timer
     current_time = time.strftime("%H:%M:%S", time.localtime())
-    print("=====Starting Skeletonization=====")
+    print("=====Starting MPS Skeletonization=====")
     print(f"Starting Time: {current_time}, Threshold: {args.threshold}, Negative: {args.negative}, Img: {img_name}")
 
     # ===== Choose Input Image =====
