@@ -18,7 +18,7 @@ from rule_module import (
 )
 import multiprocessing
 import time
-
+import numpy as np
 functions = {
     "rule_01": rule_01,
     "rule_02": rule_02,
@@ -34,8 +34,7 @@ functions = {
 }
 
 
-def multi_proc_skeletonization_handler(nodes, verbose, rule_debug):
-    print("Initializing Multiprocessed Skeletonization")
+def multi_proc_skeletonization_handler(nodes, round_debug,input_symbol_debug,output_symbol_debug, verbose):
     check = 0
     checksum = 0
     rnd = 1
@@ -45,13 +44,16 @@ def multi_proc_skeletonization_handler(nodes, verbose, rule_debug):
     quadrant = ["Q1", "Q2", "Q3", "Q4"]
 
     # Print Initial Configuration
-    if verbose == 1:
+    if input_symbol_debug == 1:
         print("==Initial Configuration==")
-        for x in nodes:
-            print(x)
+        for i in nodes:
+            for h in i:
+                print(h,end=" ")
+            print("")
 
     while True:
-        print(f"Round {rnd}")  # Print Round Number
+        if round_debug==1:
+            print(f"Round {rnd}")  # Print Round Number
         neighbor_nodes = neighbor_gen(node_holder)  # Generate Neighbor Arrays
         neighbor_quad = quadrant_gen(
             neighbor_nodes, 0
@@ -63,20 +65,20 @@ def multi_proc_skeletonization_handler(nodes, verbose, rule_debug):
                 for i_r in range(len(quad_arr[i])):
                     print(f"{quad_arr[i][i_r]}||{quad_arr[i + 1][i_r]}")
                 print("=========================================")
-
-        args_list = [(quad_arr[q], neighbor_quad[q], quadrant[q], 0) for q in range(4)]
-        with multiprocessing.Pool(processes=4) as pool:
-            temp_arr = pool.starmap(mult_proc_skeletonizer, args_list)
+        
+#        args_list = [(quad_arr[q], neighbor_quad[q], quadrant[q], 1) for q in range(4)]
+#        with multiprocessing.Pool(processes=1) as pool:
+#            temp_arr = pool.starmap(mult_proc_skeletonizer, args_list)
+        temp_arr=mult_proc_skeletonizer(node_holder,neighbor_nodes,"qall",0)
+        
         checksum = 0
-        cleaned_nodes = []
-        print(len(temp_arr[0]))
-        for i in temp_arr:
-            cleaned_nodes.append(i[0])
-            checksum += i[1]
-
-        node_holder = joiner(cleaned_nodes)
-        print("Sum:", checksum)
-
+        checksum += temp_arr[1]
+        #cleaned_nodes = []
+        #cleaned_nodes.append(temp_arr[0])
+        #node_holder = joiner(cleaned_nodes)
+        #node_holder=cleaned_nodes
+        node_holder=temp_arr[0]
+ 
         if checksum == 0:
             break
         checksum = 0
@@ -84,13 +86,13 @@ def multi_proc_skeletonization_handler(nodes, verbose, rule_debug):
 
     print("=====Finished=====")
     print(f"Rounds Taken: {rnd}")
-    if verbose == 1:
+    if output_symbol_debug == 1:
         print("Final Configuration")
-    for x in node_holder:
-        if verbose == 1:
-            print(x)
-        final_arr.append(x)
-    return final_arr, rnd
+        for x in node_holder:
+            if output_symbol_debug == 1:
+                print(x)
+        #final_arr.append(x)
+    return node_holder, rnd
 
 
 def mult_proc_skeletonizer(nodes, neighbors, label, rule_debug):
@@ -100,23 +102,26 @@ def mult_proc_skeletonizer(nodes, neighbors, label, rule_debug):
 
     for name, func in functions.items():
         if rule_debug == 1:
-            print(f"Executing {name}:")
+            print(f"Executing {name}- {label}:")
 
-        for i_x in range(len(nodes)):
-            for i_y in range(len(nodes[i_x])):
-                if name == "rule_11":
-                    nodes[i_x][i_y], check = func(
-                        nodes[i_x][i_y], i_x, i_y, neighbors[i_x][i_y], active
-                    )
-                    checksum += check
+#        for i_x in range(len(nodes)):
+#            for i_y in range(len(nodes[i_x])):
+        if name == "rule_11":
+            nodes, check = func(
+                nodes, 0, 0, neighbors, active
+            )
+            checksum += check
 
-                else:
-                    nodes[i_x][i_y] = func(
-                        nodes[i_x][i_y], i_x, i_y, neighbors[i_x][i_y], active
-                    )
-    #             if rule_debug==1:
-    #                 print(nodes[i_x][i_y])
-    #                 print("---------")
+        else:
+            nodes = func(
+                nodes, 0, 0, neighbors, active
+            )
+            
+        if rule_debug == 1:
+            for i in nodes:
+                for h in i:
+                    print(h,end=" ")
+                print("")
 
     return nodes, checksum
 
@@ -133,7 +138,7 @@ if __name__ == "__main__":
     #         print(i)
 
     start_time = time.time()
-    output_array, rnd = multi_proc_skeletonization_handler(rawImgMat, 1, 0)
+    output_array, rnd = multi_proc_skeletonization_handler(rawImgMat, 0, 0,0,0)
     end_time = time.time()
     elapsed = end_time - start_time
     print(

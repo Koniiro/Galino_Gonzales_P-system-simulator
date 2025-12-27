@@ -119,8 +119,8 @@ def rule_02(nodes, i, h, neigh, active):
     mask = (nodes[..., 1] == 's0')
     nodes[mask, 1] = 's11'
     coords = np.argwhere(mask)
-    for i, j in coords:
-        nodes[i, j, 2] = f"h{i+j}"
+    for x, y in coords:
+        nodes[x, y, 2] = f"h{x+y}"
     return nodes
 
 def rule_03(nodes, i, h, neigh, active):
@@ -189,7 +189,6 @@ def rule_10(nodes, i, h, neigh, active):
     return nodes
 
 def rule_11_checker(n_matrix):
-    
     powers= np.array([1,2,4,8,16,32,64,128,256])
     #print(n_matrix[:, 1, 1])
     flat = np.stack([
@@ -214,15 +213,15 @@ def rule_11_checker(n_matrix):
 
 def rule_11(nodes, i, h, neigh, active):
     mask = (nodes[..., 1] == 's14') & (nodes[..., 0] == 'pb') 
-   
+
 
     trident_mask=rule_11_checker(neigh[mask])
+
     check=trident_mask.sum()
     ind1=np.argwhere(mask)
  
     nodes[ind1[trident_mask, 0], ind1[trident_mask, 1],0]='pw'
     nodes[ind1[trident_mask, 0], ind1[trident_mask, 1],1]='s2'
- 
 
 
     return nodes ,check
