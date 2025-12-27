@@ -49,7 +49,6 @@ def log_maker(
     time_elapsed,
     rounds,
     negative,
-    mulproc,
 ):
     file_path = f"../Log_Files/run_log.csv"
     file_exists = os.path.isfile(file_path)
@@ -63,7 +62,6 @@ def log_maker(
             "Pixel_Area":w*h,
             "Threshold": threshold,
             "Negative": negative,
-            "Multiprocess": mulproc,
             "Time_start": time_start,
             "Time_end": time_end,
             "Time_Elapsed": time_elapsed,
@@ -81,7 +79,6 @@ def log_maker(
                 "Pixel_Area",
                 "Threshold",
                 "Negative",
-                "Multiprocess",
                 "Time_start",
                 "Time_end",
                 "Time_Elapsed",
