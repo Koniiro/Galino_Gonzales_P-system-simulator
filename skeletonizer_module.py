@@ -28,20 +28,20 @@ functions = {
 }
 
 
-def SCP_Skeletonizer(nodes, verbose, rule_debug):
+def SCP_Skeletonizer(nodes, round_debug,input_symbol_debug,output_symbol_debug, rule_debug):
     active = 1
     check = 0
     checksum = 0
     rnd = 1
     # Print Initial Configuration
-    if verbose == 1:
+    if input_symbol_debug == 1:
         print("==Initial Configuration==")
         for x in nodes:
             print(x)
 
     while True:
-        # if verbose==1:
-        print(f"Round {rnd}")
+        if round_debug==1:
+            print(f"Round {rnd}")
 
         for name, func in functions.items():
             if rule_debug == 1:
@@ -69,11 +69,11 @@ def SCP_Skeletonizer(nodes, verbose, rule_debug):
         rnd += 1
     print("=====Finished=====")
     print(f"Rounds Taken: {rnd}")
-    if verbose == 1:
+    if output_symbol_debug == 1:
         print("Final Configuration")
     final_arr = []
     for x in nodes:
-        if verbose == 1:
+        if output_symbol_debug == 1:
             print(x)
         final_arr.append(x)
     return final_arr, rnd

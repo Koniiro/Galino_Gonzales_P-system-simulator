@@ -37,7 +37,15 @@ if __name__ == "__main__":
 
 
 def log_maker(
-    filename, w,h,threshold, time_start, time_end, time_elapsed, rounds, negative
+    filename,
+    w,
+    h,
+    threshold,
+    time_start,
+    time_end,
+    time_elapsed,
+    rounds,
+    negative
 ):
     file_path = f"../Log_Files/run_log.csv"
     new_data = [
