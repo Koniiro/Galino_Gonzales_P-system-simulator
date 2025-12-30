@@ -162,7 +162,7 @@ if __name__ == "__main__":
         [["pw", "s2"], ["pb", "s12", "h0"], ["pw", "s2"]],
     ]
 
-    image_path = f"../Input-images/up_seal.png"  # Replace with your image path
+    image_path = f"../Input-images/image.png"  # Replace with your image path
     save_path = f"../Output-Images/test.png"
 
     # print(image_array)

@@ -47,5 +47,5 @@ def image_proc(input_path, bg, negative, threshold, debug):
 
 
 if __name__ == "__main__":
-    image_path = f"../Input-images/Pasig_Wordmark.png"  # Replace with your image path
+    image_path = f"../Input-images/image.png"  # Replace with your image path
     print(image_proc(image_path, 0, 0, 50, 0))
