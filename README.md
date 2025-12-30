@@ -8,10 +8,10 @@ of the Guo-Hall Skeletonization
 
 Algorithm in the same paper.
 
-The program primarily consists of three files:  
-1. `SCP System G_H Implementation.py` - Primary Implementation File
-2. `neighbor_gen_module.py` - Calculates the coordinates of the neighbors of a specified cell
-3. `rule_module.py` - Implementation of Rules described in Nicolescu 2014
+The Program has 3 Versions:
+1. `Single Process Simulator (SPS)` - Baseline simulator with each rule being applied across an image using one process
+2. `Multiprocess Simulator (MPS)` - Improved to make use of multiprocessing
+3. `Multiprocess Simulator with NumPy (MPS_NP)` - Optimized version which uses Numpy to optimize the loops that occur.
 
 ## Installation
 It is recommended to use a virtual environment for installing dependencies. You can create a virtual
@@ -24,29 +24,6 @@ This project needs numpy and pillow. You may install them using the following co
 ```python
 pip install numpy pillow
 ```
-
-## Usage
-
-To run the project, just run `SCP_System-G_H-Implementation.py`. It requires several arguments.
-```python
-python SCP_System-G_H-Implementation.py <path> -t <threshold> <-n>
-```
-- `path` - Path to the image to be skeletonized. Required
-- `-t <threshold>` - The threshold for binarization. Must be from 0 to 255. Optional, defauts to 127
-- `-n` - Add this flag if the inverse of the image will be skeletonized. Optional.
-
-## How to setup experiments
-- Test Case 3
-Get the image at https://drive.google.com/file/d/1FI0KbZYQwI6UBn-FpoeVZPv64TipWNzX/view?usp=sharing.
-You can run the skeletonization using the following command.
-```python
-python SCP_System-G_H-Implementation.py <path to image> -t 100 # for normal
-python SCP_System-G_H-Implementation.py <path to image> -t 100 -n # for inversed
-```
-
-## Multiprocessed Version
-The multiprocess version of the project can be found at the `multiProc4Segment` branch
-of the repository.
 
 ## Authors
 
