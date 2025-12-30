@@ -36,7 +36,7 @@ def quadrant_print(quad):
             print(f"{quad[i][i_r].tolist()} || {quad[i + 1][i_r].tolist()}")
         print("=========================================")
 if __name__ == "__main__":
-    img_route = "irl_test/irl_test-01.jpg"
+    img_route = "../medium_image_test/MTEST-0001.png"
     image_path = f"../Input-images/{img_route}"  # Replace with your image path
     debug=0
 

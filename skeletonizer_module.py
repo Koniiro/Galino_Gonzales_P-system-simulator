@@ -35,14 +35,18 @@ functions = {
 
 
 def multi_proc_skeletonization_handler(nodes, round_debug,input_symbol_debug,output_symbol_debug, verbose):
-    check = 0
+    multiproc = 1
+    rule_debug=0
     checksum = 0
     rnd = 1
     final_arr = []
     temp_arr = []
     node_holder = nodes  # copy over nodes
     quadrant = ["Q1", "Q2", "Q3", "Q4"]
-
+    if multiproc==1:
+        print("MPS_NP")
+    else:
+        print("SPS_NP")
     # Print Initial Configuration
     if input_symbol_debug == 1:
         print("==Initial Configuration==")
@@ -65,19 +69,23 @@ def multi_proc_skeletonization_handler(nodes, round_debug,input_symbol_debug,out
                 for i_r in range(len(quad_arr[i])):
                     print(f"{quad_arr[i][i_r]}||{quad_arr[i + 1][i_r]}")
                 print("=========================================")
-        
-#        args_list = [(quad_arr[q], neighbor_quad[q], quadrant[q], 1) for q in range(4)]
-#        with multiprocessing.Pool(processes=1) as pool:
-#            temp_arr = pool.starmap(mult_proc_skeletonizer, args_list)
-        temp_arr=mult_proc_skeletonizer(node_holder,neighbor_nodes,"qall",0)
-        
         checksum = 0
-        checksum += temp_arr[1]
-        #cleaned_nodes = []
-        #cleaned_nodes.append(temp_arr[0])
-        #node_holder = joiner(cleaned_nodes)
-        #node_holder=cleaned_nodes
-        node_holder=temp_arr[0]
+        if multiproc==0:
+            temp_arr=mult_proc_skeletonizer(node_holder,neighbor_nodes,"qall",rule_debug)
+            checksum+=temp_arr[1]
+        else:
+            args_list = [(quad_arr[q], neighbor_quad[q], quadrant[q], rule_debug) for q in range(4)]
+            with multiprocessing.Pool(processes=4) as pool:
+                temp_arr = pool.starmap(mult_proc_skeletonizer, args_list)
+            checksums = [x[1] for x in temp_arr]  
+            checksum = sum(checksums)
+            cleaned_nodes = np.empty(4, dtype=object)
+            for i in range(4):
+                cleaned_nodes[i] = temp_arr[i][0]
+
+            node_holder = joiner(cleaned_nodes)
+ 
+
  
         if checksum == 0:
             break
@@ -98,14 +106,11 @@ def multi_proc_skeletonization_handler(nodes, round_debug,input_symbol_debug,out
 def mult_proc_skeletonizer(nodes, neighbors, label, rule_debug):
     active = 1
     checksum = 0
-    # print(label)
 
     for name, func in functions.items():
         if rule_debug == 1:
             print(f"Executing {name}- {label}:")
 
-#        for i_x in range(len(nodes)):
-#            for i_y in range(len(nodes[i_x])):
         if name == "rule_11":
             nodes, check = func(
                 nodes, 0, 0, neighbors, active
@@ -122,7 +127,6 @@ def mult_proc_skeletonizer(nodes, neighbors, label, rule_debug):
                 for h in i:
                     print(h,end=" ")
                 print("")
-
     return nodes, checksum
 
 
